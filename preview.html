@@ -1,0 +1,6232 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cuestionario RRHH — Gestión Documental y Expediente Laboral Digital</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --card: #ffffff;
+      --ink: #172033;
+      --muted: #5f6b7a;
+      --line: #dfe5ee;
+      --accent: #284bdb;
+      --accent-2: #102a83;
+      --soft: #eef3ff;
+      --danger: #b42318;
+      --success: #067647;
+      --shadow: 0 18px 48px rgba(23, 32, 51, 0.08);
+      --radius: 22px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(40,75,219,0.10), transparent 28%),
+        linear-gradient(180deg, #f8fbff 0%, var(--bg) 100%);
+      min-height: 100vh;
+    }
+    .shell {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 48px;
+    }
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .mark {
+      width: 48px;
+      height: 48px;
+      display: grid;
+      place-items: center;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--accent), #6b8cff);
+      color: white;
+      font-weight: 800;
+      box-shadow: var(--shadow);
+      letter-spacing: -0.05em;
+    }
+    .brand h1 {
+      font-size: 1.05rem;
+      margin: 0 0 2px;
+      line-height: 1.2;
+    }
+    .brand p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .92rem;
+    }
+    .ghost-btn, .btn, .secondary-btn {
+      appearance: none;
+      border: none;
+      cursor: pointer;
+      font: inherit;
+      transition: transform .15s ease, box-shadow .15s ease, background .15s ease, color .15s ease;
+    }
+    .ghost-btn {
+      background: rgba(255,255,255,.84);
+      color: var(--ink);
+      border: 1px solid var(--line);
+      padding: 12px 14px;
+      border-radius: 14px;
+    }
+    .ghost-btn:hover, .secondary-btn:hover, .btn:hover { transform: translateY(-1px); }
+    .card {
+      background: rgba(255,255,255,.96);
+      border: 1px solid rgba(223,229,238,.92);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .hero {
+      display: grid;
+      grid-template-columns: 1.35fr .85fr;
+      gap: 22px;
+      padding: 32px;
+      overflow: hidden;
+    }
+    .hero h2 {
+      font-size: clamp(2rem, 4vw, 3.35rem);
+      line-height: 1.02;
+      letter-spacing: -0.04em;
+      margin: 0 0 18px;
+    }
+    .hero p {
+      color: var(--muted);
+      font-size: 1.08rem;
+      line-height: 1.65;
+      margin: 0 0 18px;
+    }
+    .badge-row, .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 18px 0 24px;
+    }
+    .badge, .meta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 999px;
+      padding: 10px 13px;
+      background: var(--soft);
+      color: var(--accent-2);
+      font-weight: 650;
+      font-size: .92rem;
+    }
+    .hero-side {
+      border-radius: 22px;
+      background: linear-gradient(180deg, #102a83 0%, #284bdb 100%);
+      color: white;
+      padding: 24px;
+      display: grid;
+      gap: 18px;
+      align-content: start;
+    }
+    .hero-side h3 {
+      margin: 0;
+      font-size: 1.2rem;
+    }
+    .hero-side ul {
+      margin: 0;
+      padding-left: 18px;
+      line-height: 1.7;
+      color: rgba(255,255,255,.92);
+    }
+    .btn {
+      background: linear-gradient(135deg, var(--accent), #5979f6);
+      color: white;
+      padding: 15px 20px;
+      border-radius: 16px;
+      font-weight: 750;
+      box-shadow: 0 18px 30px rgba(40,75,219,.18);
+    }
+    .secondary-btn {
+      background: white;
+      color: var(--accent-2);
+      border: 1px solid var(--line);
+      padding: 14px 18px;
+      border-radius: 16px;
+      font-weight: 700;
+    }
+    .wizard {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 22px;
+      align-items: start;
+    }
+    .sidebar {
+      padding: 22px;
+      position: sticky;
+      top: 18px;
+    }
+    .sidebar h3 {
+      margin: 0 0 8px;
+      font-size: 1rem;
+    }
+    .sidebar p {
+      margin: 0 0 18px;
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: .94rem;
+    }
+    .progress-track {
+      height: 12px;
+      border-radius: 999px;
+      background: #e8edf6;
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), #6b8cff);
+      border-radius: inherit;
+      transition: width .25s ease;
+    }
+    .progress-copy {
+      color: var(--muted);
+      font-size: .92rem;
+      margin-bottom: 18px;
+    }
+    .section-list {
+      display: grid;
+      gap: 8px;
+      max-height: 62vh;
+      overflow: auto;
+      padding-right: 4px;
+    }
+    .section-pill {
+      text-align: left;
+      border: 1px solid var(--line);
+      background: #fff;
+      padding: 12px;
+      border-radius: 14px;
+      cursor: pointer;
+      color: var(--ink);
+      transition: .15s ease;
+    }
+    .section-pill:hover { border-color: #b8c5ea; transform: translateY(-1px); }
+    .section-pill.active {
+      border-color: var(--accent);
+      background: var(--soft);
+      color: var(--accent-2);
+      font-weight: 700;
+    }
+    .section-pill .small {
+      display: block;
+      font-size: .8rem;
+      color: var(--muted);
+      margin-top: 3px;
+      font-weight: 500;
+    }
+    .main-card {
+      padding: 28px;
+    }
+    .eyebrow {
+      color: var(--accent);
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      font-size: .78rem;
+      margin-bottom: 10px;
+    }
+    .main-card h2 {
+      margin: 0 0 10px;
+      font-size: clamp(1.55rem, 3vw, 2.25rem);
+      letter-spacing: -0.03em;
+    }
+    .main-card .intro {
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 22px;
+    }
+    .question {
+      border-top: 1px solid var(--line);
+      padding: 22px 0;
+    }
+    .question:first-of-type {
+      border-top: none;
+      padding-top: 0;
+    }
+    .question label.heading {
+      display: block;
+      font-weight: 760;
+      line-height: 1.45;
+      margin-bottom: 10px;
+    }
+    .required {
+      color: var(--danger);
+      font-weight: 800;
+      margin-left: 4px;
+    }
+    .help {
+      color: var(--muted);
+      font-size: .92rem;
+      line-height: 1.55;
+      margin: -3px 0 12px;
+    }
+    input[type="text"], input[type="number"], select, textarea {
+      width: 100%;
+      border: 1px solid #cfd8e6;
+      border-radius: 14px;
+      padding: 14px 15px;
+      font: inherit;
+      color: var(--ink);
+      background: white;
+      outline: none;
+      transition: border .15s ease, box-shadow .15s ease;
+    }
+    textarea {
+      min-height: 126px;
+      resize: vertical;
+      line-height: 1.55;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(40,75,219,.12);
+    }
+    .choice-grid {
+      display: grid;
+      gap: 10px;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
+    .choice {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px;
+      cursor: pointer;
+      background: white;
+    }
+    .choice:hover { border-color: #b9c8ee; }
+    .choice input { margin-top: 3px; }
+    .inline-other { margin-top: 12px; }
+    .nav-row, .review-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 12px;
+      border-top: 1px solid var(--line);
+      padding-top: 22px;
+      margin-top: 18px;
+    }
+    .nav-left, .nav-right, .review-actions > div {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .error-box {
+      background: #fff1f0;
+      color: var(--danger);
+      border: 1px solid #f6c4bf;
+      padding: 14px;
+      border-radius: 16px;
+      margin: 0 0 18px;
+      line-height: 1.55;
+    }
+    .success-box {
+      background: #ecfdf3;
+      color: var(--success);
+      border: 1px solid #abefc6;
+      padding: 14px;
+      border-radius: 16px;
+      margin: 0 0 18px;
+      line-height: 1.55;
+    }
+    .summary-grid {
+      display: grid;
+      gap: 14px;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      margin: 18px 0 24px;
+    }
+    .summary-card {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px;
+      background: white;
+    }
+    .summary-card h3 {
+      margin: 0 0 8px;
+      font-size: 1rem;
+    }
+    .summary-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .review-table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: white;
+    }
+    .review-table th, .review-table td {
+      text-align: left;
+      padding: 14px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+    .review-table tr:last-child td { border-bottom: none; }
+    .review-table th {
+      background: #f8faff;
+      color: var(--muted);
+      font-size: .88rem;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+    .chip {
+      display: inline-flex;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: var(--soft);
+      color: var(--accent-2);
+      font-size: .84rem;
+      font-weight: 700;
+    }
+    .chip.pending {
+      background: #fff4e5;
+      color: #b54708;
+    }
+    .matrix {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: white;
+    }
+    .matrix table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 760px;
+    }
+    .matrix th, .matrix td {
+      padding: 12px;
+      border-bottom: 1px solid var(--line);
+      border-right: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+    .matrix th:last-child, .matrix td:last-child { border-right: none; }
+    .matrix tr:last-child td { border-bottom: none; }
+    .matrix th {
+      background: #f8faff;
+      font-size: .88rem;
+      color: var(--muted);
+    }
+    .ranking-grid {
+      display: grid;
+      gap: 12px;
+    }
+    .ranking-row {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 12px;
+      align-items: center;
+    }
+    .rank-label {
+      font-weight: 800;
+      color: var(--accent-2);
+    }
+    .file-box {
+      display: grid;
+      gap: 12px;
+    }
+    .file-note {
+      color: var(--muted);
+      font-size: .92rem;
+      margin: 0;
+    }
+    footer {
+      color: var(--muted);
+      text-align: center;
+      padding: 26px 0 0;
+      font-size: .92rem;
+    }
+    @media (max-width: 980px) {
+      .hero, .wizard { grid-template-columns: 1fr; }
+      .sidebar { position: static; }
+    }
+    @media (max-width: 640px) {
+      .shell { width: min(100% - 18px, 1180px); }
+      .hero, .main-card, .sidebar { padding: 20px; }
+      .ranking-row { grid-template-columns: 1fr; }
+      .topbar { align-items: flex-start; flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <div class="topbar">
+      <div class="brand">
+        <div class="mark">RR</div>
+        <div>
+          <h1>Diagnóstico operativo documental</h1>
+          <p>Gestión Documental y Expediente Laboral Digital</p>
+        </div>
+      </div>
+      <button class="ghost-btn" id="resetTopBtn" type="button">Reiniciar respuestas</button>
+    </div>
+
+    <main id="app"></main>
+
+    <footer>
+      Artefacto de levantamiento de requisitos · Exportación local a JSON · Versión 1.0
+    </footer>
+  </div>
+
+  <script>
+    const SCHEMA = {
+  "questionnaire_id": "rrhh_documental_discovery_v1",
+  "version": "1.0",
+  "language": "es-CO",
+  "title": "Cuestionario de Descubrimiento Operativo — Gestión Documental y Expediente Laboral Digital",
+  "description": "Instrumento para comprender procesos reales, fricciones, riesgos, necesidades y oportunidades de mejora en la gestión documental laboral.",
+  "estimated_minutes": 35,
+  "sections": [
+    {
+      "id": "A",
+      "title": "Perfil del participante",
+      "category": "common",
+      "audience": "all",
+      "description": "Datos básicos para contextualizar las respuestas y activar módulos pertinentes.",
+      "questions": [
+        {
+          "id": "A-01",
+          "key": "participant_full_name",
+          "label": "Nombre completo",
+          "type": "text",
+          "required": true,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 120
+          },
+          "export_path": "answers.A-01"
+        },
+        {
+          "id": "A-02",
+          "key": "participant_job_title",
+          "label": "Cargo actual",
+          "type": "text",
+          "required": true,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 120
+          },
+          "export_path": "answers.A-02"
+        },
+        {
+          "id": "A-03",
+          "key": "participant_area",
+          "label": "Área o proceso al que pertenece",
+          "type": "single_select",
+          "required": true,
+          "options": [
+            {
+              "value": "talento_humano",
+              "label": "Talento humano"
+            },
+            {
+              "value": "contratacion",
+              "label": "Contratación"
+            },
+            {
+              "value": "archivo_gestion_documental",
+              "label": "Archivo / Gestión documental"
+            },
+            {
+              "value": "seguridad_social",
+              "label": "Seguridad social"
+            },
+            {
+              "value": "sg_sst",
+              "label": "SG-SST"
+            },
+            {
+              "value": "nomina_administracion_laboral",
+              "label": "Nómina / Administración laboral"
+            },
+            {
+              "value": "juridica_cumplimiento_auditoria",
+              "label": "Jurídica / Cumplimiento / Auditoría"
+            },
+            {
+              "value": "coordinacion_direccion",
+              "label": "Coordinación / Dirección"
+            },
+            {
+              "value": "otro",
+              "label": "Otro"
+            }
+          ],
+          "allow_other": true,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.A-03"
+        },
+        {
+          "id": "A-04",
+          "key": "participant_tenure",
+          "label": "¿Cuánto tiempo lleva trabajando en la empresa?",
+          "type": "single_select",
+          "required": true,
+          "options": [
+            {
+              "value": "menos_de_6_meses",
+              "label": "Menos de 6 meses"
+            },
+            {
+              "value": "6_meses_a_1_ano",
+              "label": "6 meses a 1 año"
+            },
+            {
+              "value": "1_a_3_anos",
+              "label": "1 a 3 años"
+            },
+            {
+              "value": "3_a_5_anos",
+              "label": "3 a 5 años"
+            },
+            {
+              "value": "mas_de_5_anos",
+              "label": "Más de 5 años"
+            }
+          ],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.A-04"
+        },
+        {
+          "id": "A-05",
+          "key": "participant_document_interaction",
+          "label": "¿Qué nivel de interacción tiene con documentos laborales o expedientes de trabajadores?",
+          "type": "single_select",
+          "required": true,
+          "options": [
+            {
+              "value": "muy_alto_los_consulto_organizo_o_actualizo_diariamente",
+              "label": "Muy alto: los consulto, organizo o actualizo diariamente"
+            },
+            {
+              "value": "alto_intervengo_varias_veces_por_semana",
+              "label": "Alto: intervengo varias veces por semana"
+            },
+            {
+              "value": "medio_los_consulto_ocasionalmente",
+              "label": "Medio: los consulto ocasionalmente"
+            },
+            {
+              "value": "bajo_rara_vez_interactuo_con_ellos",
+              "label": "Bajo: rara vez interactúo con ellos"
+            },
+            {
+              "value": "ninguno",
+              "label": "Ninguno"
+            }
+          ],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.A-05"
+        },
+        {
+          "id": "A-06",
+          "key": "participant_responsibilities",
+          "label": "Describa brevemente sus responsabilidades relacionadas con información, documentos o expedientes laborales.",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.A-06"
+        },
+        {
+          "id": "A-07",
+          "key": "participant_activities",
+          "label": "¿Participa en una o más de estas actividades?",
+          "type": "multi_select",
+          "required": false,
+          "options": [
+            {
+              "value": "recepcion_de_documentos_de_aspirantes_o_trabajadores",
+              "label": "Recepción de documentos de aspirantes o trabajadores"
+            },
+            {
+              "value": "validacion_de_documentos",
+              "label": "Validación de documentos"
+            },
+            {
+              "value": "digitalizacion_o_escaneo",
+              "label": "Digitalización o escaneo"
+            },
+            {
+              "value": "clasificacion_o_archivo",
+              "label": "Clasificación o archivo"
+            },
+            {
+              "value": "consulta_de_expedientes",
+              "label": "Consulta de expedientes"
+            },
+            {
+              "value": "envio_de_documentos_a_otras_areas",
+              "label": "Envío de documentos a otras áreas"
+            },
+            {
+              "value": "elaboracion_o_revision_de_contratos",
+              "label": "Elaboración o revisión de contratos"
+            },
+            {
+              "value": "afiliaciones_o_soportes_de_seguridad_social",
+              "label": "Afiliaciones o soportes de seguridad social"
+            },
+            {
+              "value": "gestion_de_incapacidades",
+              "label": "Gestión de incapacidades"
+            },
+            {
+              "value": "gestion_de_documentos_de_sg_sst",
+              "label": "Gestión de documentos de SG-SST"
+            },
+            {
+              "value": "atencion_de_auditorias_o_requerimientos",
+              "label": "Atención de auditorías o requerimientos"
+            },
+            {
+              "value": "actualizacion_de_datos_del_trabajador",
+              "label": "Actualización de datos del trabajador"
+            },
+            {
+              "value": "cierre_o_retiro_laboral",
+              "label": "Cierre o retiro laboral"
+            },
+            {
+              "value": "otra",
+              "label": "Otra"
+            }
+          ],
+          "allow_other": true,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.A-07"
+        },
+        {
+          "id": "A-08",
+          "key": "participant_modules",
+          "label": "Módulos que puede responder con conocimiento directo",
+          "type": "multi_select",
+          "required": true,
+          "options": [
+            {
+              "value": "talento_humano_contratacion",
+              "label": "Talento humano / contratación"
+            },
+            {
+              "value": "archivo_gestion_documental",
+              "label": "Archivo / gestión documental"
+            },
+            {
+              "value": "seguridad_social_administracion_laboral",
+              "label": "Seguridad social / administración laboral"
+            },
+            {
+              "value": "sg_sst",
+              "label": "SG-SST"
+            },
+            {
+              "value": "juridica_auditoria_cumplimiento",
+              "label": "Jurídica / auditoría / cumplimiento"
+            },
+            {
+              "value": "direccion_coordinacion",
+              "label": "Dirección / coordinación"
+            },
+            {
+              "value": "informacion_tecnica_e_integraciones",
+              "label": "Información técnica e integraciones"
+            },
+            {
+              "value": "ninguno_adicional_respondere_solo_el_bloque_comun",
+              "label": "Ninguno adicional; responderé solo el bloque común"
+            }
+          ],
+          "allow_other": false,
+          "help_text": "Seleccione los frentes sobre los que puede aportar desde su experiencia real.",
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.A-08"
+        }
+      ]
+    },
+    {
+      "id": "B",
+      "title": "Flujo operativo real",
+      "category": "common",
+      "audience": "all",
+      "description": "Cómo funciona hoy la gestión documental durante el ciclo laboral.",
+      "questions": [
+        {
+          "id": "B-01",
+          "key": "current_flow",
+          "label": "Describa, paso a paso, cómo se gestiona hoy la documentación de un trabajador desde su ingreso hasta su retiro o finalización de vínculo.",
+          "type": "textarea",
+          "required": true,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 5000
+          },
+          "export_path": "answers.B-01"
+        },
+        {
+          "id": "B-02",
+          "key": "cycle_moments",
+          "label": "¿En qué momentos del ciclo laboral se crean, reciben o actualizan documentos?",
+          "type": "multi_select",
+          "required": false,
+          "options": [
+            {
+              "value": "postulacion_o_seleccion",
+              "label": "Postulación o selección"
+            },
+            {
+              "value": "vinculacion_contratacion",
+              "label": "Vinculación / contratación"
+            },
+            {
+              "value": "afiliacion_a_seguridad_social",
+              "label": "Afiliación a seguridad social"
+            },
+            {
+              "value": "ingreso_a_empresa_usuaria",
+              "label": "Ingreso a empresa usuaria"
+            },
+            {
+              "value": "cambios_de_cargo",
+              "label": "Cambios de cargo"
+            },
+            {
+              "value": "prorrogas_u_otrosies",
+              "label": "Prórrogas u otrosíes"
+            },
+            {
+              "value": "incapacidades",
+              "label": "Incapacidades"
+            },
+            {
+              "value": "accidentes_o_novedades_de_sg_sst",
+              "label": "Accidentes o novedades de SG-SST"
+            },
+            {
+              "value": "actualizacion_de_datos_personales",
+              "label": "Actualización de datos personales"
+            },
+            {
+              "value": "terminacion_de_contrato",
+              "label": "Terminación de contrato"
+            },
+            {
+              "value": "liquidacion",
+              "label": "Liquidación"
+            },
+            {
+              "value": "auditorias_o_requerimientos_externos",
+              "label": "Auditorías o requerimientos externos"
+            },
+            {
+              "value": "otro",
+              "label": "Otro"
+            }
+          ],
+          "allow_other": true,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.B-02"
+        },
+        {
+          "id": "B-03",
+          "key": "involved_areas",
+          "label": "¿Qué áreas intervienen en ese flujo documental?",
+          "type": "multi_select",
+          "required": false,
+          "options": [
+            {
+              "value": "talento_humano",
+              "label": "Talento humano"
+            },
+            {
+              "value": "contratacion",
+              "label": "Contratación"
+            },
+            {
+              "value": "archivo_gestion_documental",
+              "label": "Archivo / Gestión documental"
+            },
+            {
+              "value": "seguridad_social",
+              "label": "Seguridad social"
+            },
+            {
+              "value": "sg_sst",
+              "label": "SG-SST"
+            },
+            {
+              "value": "nomina_administracion_laboral",
+              "label": "Nómina / Administración laboral"
+            },
+            {
+              "value": "juridica_cumplimiento_auditoria",
+              "label": "Jurídica / Cumplimiento / Auditoría"
+            },
+            {
+              "value": "coordinacion_direccion",
+              "label": "Coordinación / Dirección"
+            },
+            {
+              "value": "otro",
+              "label": "Otro"
+            }
+          ],
+          "allow_other": true,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.B-03"
+        },
+        {
+          "id": "B-04",
+          "key": "transfer_channels",
+          "label": "¿Cómo se transfiere hoy la información o documentación entre áreas?",
+          "type": "multi_select",
+          "required": false,
+          "options": [
+            {
+              "value": "correo_electronico",
+              "label": "Correo electrónico"
+            },
+            {
+              "value": "whatsapp",
+              "label": "WhatsApp"
+            },
+            {
+              "value": "carpetas_fisicas",
+              "label": "Carpetas físicas"
+            },
+            {
+              "value": "carpetas_compartidas_en_red",
+              "label": "Carpetas compartidas en red"
+            },
+            {
+              "value": "google_drive_onedrive_dropbox",
+              "label": "Google Drive / OneDrive / Dropbox"
+            },
+            {
+              "value": "sistema_interno",
+              "label": "Sistema interno"
+            },
+            {
+              "value": "memorias_usb",
+              "label": "Memorias USB"
+            },
+            {
+              "value": "entrega_verbal_o_presencial",
+              "label": "Entrega verbal o presencial"
+            },
+            {
+              "value": "otro",
+              "label": "Otro"
+            }
+          ],
+          "allow_other": true,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.B-04"
+        },
+        {
+          "id": "B-05",
+          "key": "flow_documented",
+          "label": "¿El flujo actual está documentado formalmente o depende principalmente de la práctica diaria?",
+          "type": "single_select",
+          "required": false,
+          "options": [
+            {
+              "value": "esta_completamente_documentado",
+              "label": "Está completamente documentado"
+            },
+            {
+              "value": "esta_parcialmente_documentado",
+              "label": "Está parcialmente documentado"
+            },
+            {
+              "value": "no_esta_documentado",
+              "label": "No está documentado"
+            },
+            {
+              "value": "no_estoy_seguro",
+              "label": "No estoy seguro"
+            }
+          ],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.B-05"
+        },
+        {
+          "id": "B-06",
+          "key": "official_vs_real",
+          "label": "¿Existen diferencias entre el proceso “oficial” y lo que realmente ocurre en el día a día?",
+          "type": "yes_no_na",
+          "required": false,
+          "options": [
+            {
+              "value": "si",
+              "label": "Sí"
+            },
+            {
+              "value": "no",
+              "label": "No"
+            },
+            {
+              "value": "no_aplica",
+              "label": "No aplica"
+            }
+          ],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.B-06"
+        },
+        {
+          "id": "B-07",
+          "key": "official_vs_real_details",
+          "label": "Si respondió sí, describa esas diferencias.",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "conditional",
+            "question_id": "B-06",
+            "operator": "equals",
+            "value": "si"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.B-07"
+        },
+        {
+          "id": "B-08",
+          "key": "slow_or_error_prone_steps",
+          "label": "¿Qué pasos del proceso considera más lentos o propensos a errores?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.B-08"
+        },
+        {
+          "id": "B-09",
+          "key": "manual_steps",
+          "label": "¿Qué pasos del proceso requieren más intervención manual?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.B-09"
+        },
+        {
+          "id": "B-10",
+          "key": "repeated_worker_requests",
+          "label": "¿Qué información se solicita repetidamente a un trabajador porque no se encuentra, no está organizada o no se sabe si ya fue entregada?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.B-10"
+        }
+      ]
+    },
+    {
+      "id": "C",
+      "title": "Tipos documentales y estructura de expediente",
+      "category": "common",
+      "audience": "all",
+      "description": "Inventario de documentos, datos y estructura actual de la información.",
+      "questions": [
+        {
+          "id": "C-01",
+          "key": "document_types",
+          "label": "¿Qué tipos de documentos laborales gestiona o consulta con mayor frecuencia?",
+          "type": "multi_select",
+          "required": true,
+          "options": [
+            {
+              "value": "cedula",
+              "label": "Cédula"
+            },
+            {
+              "value": "hoja_de_vida",
+              "label": "Hoja de vida"
+            },
+            {
+              "value": "foto",
+              "label": "Foto"
+            },
+            {
+              "value": "certificados_academicos",
+              "label": "Certificados académicos"
+            },
+            {
+              "value": "certificados_laborales",
+              "label": "Certificados laborales"
+            },
+            {
+              "value": "libreta_militar",
+              "label": "Libreta militar"
+            },
+            {
+              "value": "pasaporte",
+              "label": "Pasaporte"
+            },
+            {
+              "value": "contrato_laboral",
+              "label": "Contrato laboral"
+            },
+            {
+              "value": "otrosi",
+              "label": "Otrosí"
+            },
+            {
+              "value": "prorroga",
+              "label": "Prórroga"
+            },
+            {
+              "value": "carta_de_empresa_usuaria",
+              "label": "Carta de empresa usuaria"
+            },
+            {
+              "value": "liquidacion",
+              "label": "Liquidación"
+            },
+            {
+              "value": "afiliacion_eps",
+              "label": "Afiliación EPS"
+            },
+            {
+              "value": "afiliacion_afp",
+              "label": "Afiliación AFP"
+            },
+            {
+              "value": "afiliacion_arl",
+              "label": "Afiliación ARL"
+            },
+            {
+              "value": "caja_de_compensacion",
+              "label": "Caja de compensación"
+            },
+            {
+              "value": "certificacion_bancaria",
+              "label": "Certificación bancaria"
+            },
+            {
+              "value": "incapacidades",
+              "label": "Incapacidades"
+            },
+            {
+              "value": "licencias",
+              "label": "Licencias"
+            },
+            {
+              "value": "examenes_medicos",
+              "label": "Exámenes médicos"
+            },
+            {
+              "value": "entregas_de_epp",
+              "label": "Entregas de EPP"
+            },
+            {
+              "value": "capacitaciones_sg_sst",
+              "label": "Capacitaciones SG-SST"
+            },
+            {
+              "value": "reportes_de_accidentes",
+              "label": "Reportes de accidentes"
+            },
+            {
+              "value": "firmas_de_asistencia",
+              "label": "Firmas de asistencia"
+            },
+            {
+              "value": "documentos_de_beneficiarios",
+              "label": "Documentos de beneficiarios"
+            },
+            {
+              "value": "otro",
+              "label": "Otro"
+            }
+          ],
+          "allow_other": true,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.C-01"
+        },
+        {
+          "id": "C-02",
+          "key": "mandatory_documents_exist",
+          "label": "¿Existen documentos que deban estar obligatoriamente en el expediente de cada trabajador?",
+          "type": "yes_no_unsure",
+          "required": false,
+          "options": [
+            {
+              "value": "si",
+              "label": "Sí"
+            },
+            {
+              "value": "no",
+              "label": "No"
+            },
+            {
+              "value": "no_estoy_seguro",
+              "label": "No estoy seguro"
+            }
+          ],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.C-02"
+        },
+        {
+          "id": "C-03",
+          "key": "mandatory_documents_list",
+          "label": "Si respondió sí, enumérelos.",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "conditional",
+            "question_id": "C-02",
+            "operator": "equals",
+            "value": "si"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.C-03"
+        },
+        {
+          "id": "C-04",
+          "key": "conditional_mandatory_documents",
+          "label": "¿Existen documentos obligatorios solo para ciertos cargos, empresas usuarias o tipos de contrato?",
+          "type": "yes_no_na",
+          "required": false,
+          "options": [
+            {
+              "value": "si",
+              "label": "Sí"
+            },
+            {
+              "value": "no",
+              "label": "No"
+            },
+            {
+              "value": "no_aplica",
+              "label": "No aplica"
+            }
+          ],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.C-04"
+        },
+        {
+          "id": "C-05",
+          "key": "conditional_mandatory_documents_details",
+          "label": "Si respondió sí, explique cuáles y bajo qué condiciones.",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "conditional",
+            "question_id": "C-04",
+            "operator": "equals",
+            "value": "si"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.C-05"
+        },
+        {
+          "id": "C-06",
+          "key": "frequent_document_issues",
+          "label": "¿Qué documentos suelen llegar incompletos, ilegibles, vencidos o con errores?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.C-06"
+        },
+        {
+          "id": "C-07",
+          "key": "quick_access_worker_data",
+          "label": "¿Qué datos de un trabajador deben consultarse con mayor rapidez?",
+          "type": "multi_select",
+          "required": false,
+          "options": [
+            {
+              "value": "nombre_completo",
+              "label": "Nombre completo"
+            },
+            {
+              "value": "cedula",
+              "label": "Cédula"
+            },
+            {
+              "value": "telefono",
+              "label": "Teléfono"
+            },
+            {
+              "value": "correo",
+              "label": "Correo"
+            },
+            {
+              "value": "direccion",
+              "label": "Dirección"
+            },
+            {
+              "value": "empresa_usuaria",
+              "label": "Empresa usuaria"
+            },
+            {
+              "value": "cargo",
+              "label": "Cargo"
+            },
+            {
+              "value": "estado_laboral",
+              "label": "Estado laboral"
+            },
+            {
+              "value": "fecha_de_ingreso",
+              "label": "Fecha de ingreso"
+            },
+            {
+              "value": "tipo_de_contrato",
+              "label": "Tipo de contrato"
+            },
+            {
+              "value": "fecha_de_finalizacion",
+              "label": "Fecha de finalización"
+            },
+            {
+              "value": "eps",
+              "label": "EPS"
+            },
+            {
+              "value": "afp",
+              "label": "AFP"
+            },
+            {
+              "value": "arl",
+              "label": "ARL"
+            },
+            {
+              "value": "banco_y_cuenta",
+              "label": "Banco y cuenta"
+            },
+            {
+              "value": "beneficiarios",
+              "label": "Beneficiarios"
+            },
+            {
+              "value": "historial_de_contratos",
+              "label": "Historial de contratos"
+            },
+            {
+              "value": "incapacidades",
+              "label": "Incapacidades"
+            },
+            {
+              "value": "documentos_faltantes",
+              "label": "Documentos faltantes"
+            },
+            {
+              "value": "alertas_o_vencimientos",
+              "label": "Alertas o vencimientos"
+            },
+            {
+              "value": "otro",
+              "label": "Otro"
+            }
+          ],
+          "allow_other": true,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.C-07"
+        },
+        {
+          "id": "C-08",
+          "key": "file_fragmentation",
+          "label": "¿La empresa maneja un expediente único por trabajador o la información queda fragmentada en varios lugares?",
+          "type": "single_select",
+          "required": true,
+          "options": [
+            {
+              "value": "expediente_unico_y_consistente",
+              "label": "Expediente único y consistente"
+            },
+            {
+              "value": "parcialmente_unificado",
+              "label": "Parcialmente unificado"
+            },
+            {
+              "value": "fragmentado_en_varios_medios_o_areas",
+              "label": "Fragmentado en varios medios o áreas"
+            },
+            {
+              "value": "no_estoy_seguro",
+              "label": "No estoy seguro"
+            }
+          ],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.C-08"
+        },
+        {
+          "id": "C-09",
+          "key": "worker_info_locations",
+          "label": "Describa dónde se encuentra hoy la información de un trabajador.",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.C-09"
+        },
+        {
+          "id": "C-10",
+          "key": "history_reconstruction_ease",
+          "label": "¿Qué tan fácil es reconstruir el historial completo de un trabajador?",
+          "type": "scale_1_5",
+          "required": false,
+          "options": [
+            {
+              "value": "1",
+              "label": "1"
+            },
+            {
+              "value": "2",
+              "label": "2"
+            },
+            {
+              "value": "3",
+              "label": "3"
+            },
+            {
+              "value": "4",
+              "label": "4"
+            },
+            {
+              "value": "5",
+              "label": "5"
+            }
+          ],
+          "allow_other": false,
+          "help_text": "1 = Muy difícil / 5 = Muy fácil",
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.C-10"
+        },
+        {
+          "id": "C-11",
+          "key": "history_reconstruction_reason",
+          "label": "Explique por qué asignó esa calificación.",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.C-11"
+        }
+      ]
+    },
+    {
+      "id": "D",
+      "title": "Magnitud de la operación",
+      "category": "common",
+      "audience": "all",
+      "description": "Volumen, frecuencia, tiempos y carga operativa.",
+      "questions": [
+        {
+          "id": "D-01",
+          "key": "active_workers_count",
+          "label": "Aproximadamente, ¿cuántos trabajadores activos administra actualmente la empresa?",
+          "type": "number",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "min": 0
+          },
+          "export_path": "answers.D-01"
+        },
+        {
+          "id": "D-02",
+          "key": "historical_files_count",
+          "label": "Aproximadamente, ¿cuántos expedientes históricos o inactivos existen?",
+          "type": "number",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "min": 0
+          },
+          "export_path": "answers.D-02"
+        },
+        {
+          "id": "D-03",
+          "key": "monthly_new_hires",
+          "label": "¿Cuántos ingresos o vinculaciones nuevas se procesan en un mes promedio?",
+          "type": "number",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "min": 0
+          },
+          "export_path": "answers.D-03"
+        },
+        {
+          "id": "D-04",
+          "key": "weekly_new_or_updated_documents",
+          "label": "¿Cuántos documentos nuevos o actualizados se reciben en una semana promedio?",
+          "type": "number",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "min": 0
+          },
+          "export_path": "answers.D-04"
+        },
+        {
+          "id": "D-05",
+          "key": "urgent_document_search_time",
+          "label": "¿Cuánto tiempo tarda normalmente encontrar un documento específico cuando se necesita con urgencia?",
+          "type": "single_select",
+          "required": true,
+          "options": [
+            {
+              "value": "menos_de_1_minuto",
+              "label": "Menos de 1 minuto"
+            },
+            {
+              "value": "1_a_5_minutos",
+              "label": "1 a 5 minutos"
+            },
+            {
+              "value": "5_a_15_minutos",
+              "label": "5 a 15 minutos"
+            },
+            {
+              "value": "15_a_30_minutos",
+              "label": "15 a 30 minutos"
+            },
+            {
+              "value": "mas_de_30_minutos",
+              "label": "Más de 30 minutos"
+            },
+            {
+              "value": "depende_demasiado_del_caso",
+              "label": "Depende demasiado del caso"
+            }
+          ],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.D-05"
+        },
+        {
+          "id": "D-06",
+          "key": "audit_file_assembly_time",
+          "label": "¿Cuánto tiempo tarda normalmente armar o verificar un expediente completo para una auditoría, revisión o requerimiento?",
+          "type": "single_select",
+          "required": true,
+          "options": [
+            {
+              "value": "menos_de_30_minutos",
+              "label": "Menos de 30 minutos"
+            },
+            {
+              "value": "30_minutos_a_2_horas",
+              "label": "30 minutos a 2 horas"
+            },
+            {
+              "value": "2_a_6_horas",
+              "label": "2 a 6 horas"
+            },
+            {
+              "value": "1_dia",
+              "label": "1 día"
+            },
+            {
+              "value": "varios_dias",
+              "label": "Varios días"
+            },
+            {
+              "value": "depende_demasiado_del_caso",
+              "label": "Depende demasiado del caso"
+            }
+          ],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.D-06"
+        },
+        {
+          "id": "D-07",
+          "key": "weekly_time_consumers",
+          "label": "¿Qué actividades documentales consumen más tiempo cada semana?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.D-07"
+        },
+        {
+          "id": "D-08",
+          "key": "repetitive_activities",
+          "label": "¿Qué actividades se repiten en exceso y podrían estandarizarse o automatizarse?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.D-08"
+        }
+      ]
+    },
+    {
+      "id": "E",
+      "title": "Dolor operativo y riesgos actuales",
+      "category": "common",
+      "audience": "all",
+      "description": "Problemas, consecuencias y nivel de riesgo percibido.",
+      "questions": [
+        {
+          "id": "E-01",
+          "key": "current_problems",
+          "label": "Seleccione los problemas que ocurren actualmente.",
+          "type": "multi_select",
+          "required": true,
+          "options": [
+            {
+              "value": "documentos_extraviados",
+              "label": "Documentos extraviados"
+            },
+            {
+              "value": "documentos_duplicados",
+              "label": "Documentos duplicados"
+            },
+            {
+              "value": "versiones_contradictorias_de_un_mismo_documento",
+              "label": "Versiones contradictorias de un mismo documento"
+            },
+            {
+              "value": "expedientes_incompletos",
+              "label": "Expedientes incompletos"
+            },
+            {
+              "value": "archivos_fisicos_deteriorados",
+              "label": "Archivos físicos deteriorados"
+            },
+            {
+              "value": "busquedas_demasiado_lentas",
+              "label": "Búsquedas demasiado lentas"
+            },
+            {
+              "value": "dependencia_de_una_persona_especifica",
+              "label": "Dependencia de una persona específica"
+            },
+            {
+              "value": "falta_de_claridad_sobre_quien_actualizo_algo",
+              "label": "Falta de claridad sobre quién actualizó algo"
+            },
+            {
+              "value": "falta_de_alertas_sobre_documentos_vencidos_o_faltantes",
+              "label": "Falta de alertas sobre documentos vencidos o faltantes"
+            },
+            {
+              "value": "errores_en_clasificacion",
+              "label": "Errores en clasificación"
+            },
+            {
+              "value": "informacion_distinta_en_varias_fuentes",
+              "label": "Información distinta en varias fuentes"
+            },
+            {
+              "value": "dificultad_para_atender_auditorias",
+              "label": "Dificultad para atender auditorías"
+            },
+            {
+              "value": "reprocesos_por_solicitudes_repetidas",
+              "label": "Reprocesos por solicitudes repetidas"
+            },
+            {
+              "value": "otro",
+              "label": "Otro"
+            }
+          ],
+          "allow_other": true,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.E-01"
+        },
+        {
+          "id": "E-02",
+          "key": "highest_impact_problem",
+          "label": "¿Cuál de esos problemas genera mayor impacto en la operación?",
+          "type": "textarea",
+          "required": true,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.E-02"
+        },
+        {
+          "id": "E-03",
+          "key": "problem_consequences",
+          "label": "¿Qué consecuencias produce ese problema?",
+          "type": "multi_select",
+          "required": false,
+          "options": [
+            {
+              "value": "perdida_de_tiempo",
+              "label": "Pérdida de tiempo"
+            },
+            {
+              "value": "riesgo_legal",
+              "label": "Riesgo legal"
+            },
+            {
+              "value": "riesgo_frente_a_auditorias",
+              "label": "Riesgo frente a auditorías"
+            },
+            {
+              "value": "retrasos_en_contratacion",
+              "label": "Retrasos en contratación"
+            },
+            {
+              "value": "mala_experiencia_del_trabajador",
+              "label": "Mala experiencia del trabajador"
+            },
+            {
+              "value": "dificultad_de_coordinacion_entre_areas",
+              "label": "Dificultad de coordinación entre áreas"
+            },
+            {
+              "value": "errores_administrativos",
+              "label": "Errores administrativos"
+            },
+            {
+              "value": "costos_adicionales",
+              "label": "Costos adicionales"
+            },
+            {
+              "value": "perdida_de_confianza_interna",
+              "label": "Pérdida de confianza interna"
+            },
+            {
+              "value": "otro",
+              "label": "Otro"
+            }
+          ],
+          "allow_other": true,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.E-03"
+        },
+        {
+          "id": "E-04",
+          "key": "recent_real_case",
+          "label": "Describa un caso real reciente en el que la falta de organización documental haya generado demora, error o tensión operativa.",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 5000
+          },
+          "export_path": "answers.E-04"
+        },
+        {
+          "id": "E-05",
+          "key": "issue_frequency",
+          "label": "¿Con qué frecuencia se presentan problemas de documentación incompleta o difícil de ubicar?",
+          "type": "single_select",
+          "required": false,
+          "options": [
+            {
+              "value": "todos_los_dias",
+              "label": "Todos los días"
+            },
+            {
+              "value": "varias_veces_por_semana",
+              "label": "Varias veces por semana"
+            },
+            {
+              "value": "varias_veces_por_mes",
+              "label": "Varias veces por mes"
+            },
+            {
+              "value": "ocasionalmente",
+              "label": "Ocasionalmente"
+            },
+            {
+              "value": "casi_nunca",
+              "label": "Casi nunca"
+            }
+          ],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.E-05"
+        },
+        {
+          "id": "E-06",
+          "key": "operational_risk_score",
+          "label": "Califique de 1 a 5 el nivel de riesgo operativo actual asociado a la gestión documental.",
+          "type": "scale_1_5",
+          "required": false,
+          "options": [
+            {
+              "value": "1",
+              "label": "1"
+            },
+            {
+              "value": "2",
+              "label": "2"
+            },
+            {
+              "value": "3",
+              "label": "3"
+            },
+            {
+              "value": "4",
+              "label": "4"
+            },
+            {
+              "value": "5",
+              "label": "5"
+            }
+          ],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.E-06"
+        },
+        {
+          "id": "E-07",
+          "key": "legal_audit_risk_score",
+          "label": "Califique de 1 a 5 el nivel de riesgo legal, laboral o de auditoría asociado a la gestión documental.",
+          "type": "scale_1_5",
+          "required": false,
+          "options": [
+            {
+              "value": "1",
+              "label": "1"
+            },
+            {
+              "value": "2",
+              "label": "2"
+            },
+            {
+              "value": "3",
+              "label": "3"
+            },
+            {
+              "value": "4",
+              "label": "4"
+            },
+            {
+              "value": "5",
+              "label": "5"
+            }
+          ],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.E-07"
+        },
+        {
+          "id": "E-08",
+          "key": "risk_scores_reason",
+          "label": "Explique las razones de esas calificaciones.",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.E-08"
+        }
+      ]
+    },
+    {
+      "id": "F",
+      "title": "Recuperación de información y trazabilidad",
+      "category": "common",
+      "audience": "all",
+      "description": "Búsquedas, auditorías, reportes e historial de acciones.",
+      "questions": [
+        {
+          "id": "F-01",
+          "key": "frequent_searches",
+          "label": "¿Qué búsquedas realiza con más frecuencia?",
+          "type": "multi_select",
+          "required": true,
+          "options": [
+            {
+              "value": "buscar_trabajador_por_nombre",
+              "label": "Buscar trabajador por nombre"
+            },
+            {
+              "value": "buscar_trabajador_por_cedula",
+              "label": "Buscar trabajador por cédula"
+            },
+            {
+              "value": "buscar_por_empresa_usuaria",
+              "label": "Buscar por empresa usuaria"
+            },
+            {
+              "value": "buscar_por_cargo",
+              "label": "Buscar por cargo"
+            },
+            {
+              "value": "buscar_por_estado_laboral",
+              "label": "Buscar por estado laboral"
+            },
+            {
+              "value": "buscar_por_tipo_de_documento",
+              "label": "Buscar por tipo de documento"
+            },
+            {
+              "value": "buscar_contratos_historicos",
+              "label": "Buscar contratos históricos"
+            },
+            {
+              "value": "buscar_documentos_faltantes",
+              "label": "Buscar documentos faltantes"
+            },
+            {
+              "value": "buscar_incapacidades",
+              "label": "Buscar incapacidades"
+            },
+            {
+              "value": "buscar_soportes_de_afiliacion",
+              "label": "Buscar soportes de afiliación"
+            },
+            {
+              "value": "buscar_examenes_medicos",
+              "label": "Buscar exámenes médicos"
+            },
+            {
+              "value": "buscar_novedades_por_fecha",
+              "label": "Buscar novedades por fecha"
+            },
+            {
+              "value": "otro",
+              "label": "Otro"
+            }
+          ],
+          "allow_other": true,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.F-01"
+        },
+        {
+          "id": "F-02",
+          "key": "indispensable_filters",
+          "label": "¿Qué filtros considera indispensables para encontrar información de forma rápida?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.F-02"
+        },
+        {
+          "id": "F-03",
+          "key": "audit_requested_documents",
+          "label": "¿Qué documentos suelen solicitarse durante auditorías, inspecciones, requerimientos legales o controles internos?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.F-03"
+        },
+        {
+          "id": "F-04",
+          "key": "audit_readiness",
+          "label": "¿Qué tan preparada está hoy la empresa para responder con rapidez a una auditoría documental?",
+          "type": "scale_1_5",
+          "required": false,
+          "options": [
+            {
+              "value": "1",
+              "label": "1"
+            },
+            {
+              "value": "2",
+              "label": "2"
+            },
+            {
+              "value": "3",
+              "label": "3"
+            },
+            {
+              "value": "4",
+              "label": "4"
+            },
+            {
+              "value": "5",
+              "label": "5"
+            }
+          ],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.F-04"
+        },
+        {
+          "id": "F-05",
+          "key": "audit_difficulties",
+          "label": "¿Qué dificulta responder mejor a auditorías o requerimientos?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.F-05"
+        },
+        {
+          "id": "F-06",
+          "key": "need_action_traceability",
+          "label": "¿Es necesario saber quién subió, modificó, revisó o descargó un documento?",
+          "type": "single_select",
+          "required": false,
+          "options": [
+            {
+              "value": "si_siempre",
+              "label": "Sí, siempre"
+            },
+            {
+              "value": "si_en_algunos_casos",
+              "label": "Sí, en algunos casos"
+            },
+            {
+              "value": "no",
+              "label": "No"
+            },
+            {
+              "value": "no_estoy_seguro",
+              "label": "No estoy seguro"
+            }
+          ],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.F-06"
+        },
+        {
+          "id": "F-07",
+          "key": "traceable_actions",
+          "label": "Si respondió sí, indique qué acciones deberían quedar registradas en un historial o bitácora.",
+          "type": "multi_select",
+          "required": false,
+          "options": [
+            {
+              "value": "carga_de_documento",
+              "label": "Carga de documento"
+            },
+            {
+              "value": "edicion_de_datos",
+              "label": "Edición de datos"
+            },
+            {
+              "value": "reemplazo_de_archivo",
+              "label": "Reemplazo de archivo"
+            },
+            {
+              "value": "eliminacion",
+              "label": "Eliminación"
+            },
+            {
+              "value": "consulta",
+              "label": "Consulta"
+            },
+            {
+              "value": "descarga",
+              "label": "Descarga"
+            },
+            {
+              "value": "aprobacion_o_validacion",
+              "label": "Aprobación o validación"
+            },
+            {
+              "value": "rechazo_o_devolucion",
+              "label": "Rechazo o devolución"
+            },
+            {
+              "value": "otro",
+              "label": "Otro"
+            }
+          ],
+          "allow_other": true,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "conditional",
+            "question_id": "F-06",
+            "operator": "in",
+            "values": [
+              "si_siempre",
+              "si_en_algunos_casos"
+            ]
+          },
+          "validation": {},
+          "export_path": "answers.F-07"
+        },
+        {
+          "id": "F-08",
+          "key": "needs_consolidated_reports",
+          "label": "¿La empresa necesita generar reportes consolidados a partir de los expedientes?",
+          "type": "yes_no_unsure",
+          "required": false,
+          "options": [
+            {
+              "value": "si",
+              "label": "Sí"
+            },
+            {
+              "value": "no",
+              "label": "No"
+            },
+            {
+              "value": "no_estoy_seguro",
+              "label": "No estoy seguro"
+            }
+          ],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.F-08"
+        },
+        {
+          "id": "F-09",
+          "key": "useful_reports",
+          "label": "Si respondió sí, indique qué reportes serían más útiles.",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "conditional",
+            "question_id": "F-08",
+            "operator": "equals",
+            "value": "si"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.F-09"
+        }
+      ]
+    },
+    {
+      "id": "G",
+      "title": "Accesos y protección de información",
+      "category": "common",
+      "audience": "all",
+      "description": "Permisos, confidencialidad y auditoría de accesos.",
+      "questions": [
+        {
+          "id": "G-01",
+          "key": "same_visibility_for_all_areas",
+          "label": "¿Todas las áreas deberían ver la misma información del trabajador?",
+          "type": "yes_no_unsure",
+          "required": false,
+          "options": [
+            {
+              "value": "si",
+              "label": "Sí"
+            },
+            {
+              "value": "no",
+              "label": "No"
+            },
+            {
+              "value": "no_estoy_seguro",
+              "label": "No estoy seguro"
+            }
+          ],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.G-01"
+        },
+        {
+          "id": "G-02",
+          "key": "restricted_information_details",
+          "label": "Si respondió no, explique qué información debería restringirse y para quién.",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "conditional",
+            "question_id": "G-01",
+            "operator": "equals",
+            "value": "no"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.G-02"
+        },
+        {
+          "id": "G-03",
+          "key": "role_permissions",
+          "label": "¿Qué roles deberían poder realizar cada una de estas acciones?",
+          "type": "role_permission_matrix",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": "Defina permisos sugeridos por rol para acciones sensibles del sistema.",
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.G-03"
+        },
+        {
+          "id": "G-04",
+          "key": "sensitive_documents_exist",
+          "label": "¿Existen documentos especialmente sensibles que requieran mayor control?",
+          "type": "yes_no_unsure",
+          "required": false,
+          "options": [
+            {
+              "value": "si",
+              "label": "Sí"
+            },
+            {
+              "value": "no",
+              "label": "No"
+            },
+            {
+              "value": "no_estoy_seguro",
+              "label": "No estoy seguro"
+            }
+          ],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.G-04"
+        },
+        {
+          "id": "G-05",
+          "key": "sensitive_documents_list",
+          "label": "Si respondió sí, enumérelos.",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "conditional",
+            "question_id": "G-04",
+            "operator": "equals",
+            "value": "si"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.G-05"
+        },
+        {
+          "id": "G-06",
+          "key": "audit_access_downloads",
+          "label": "¿La empresa requiere que ciertos accesos o descargas queden auditados?",
+          "type": "yes_no_unsure",
+          "required": false,
+          "options": [
+            {
+              "value": "si",
+              "label": "Sí"
+            },
+            {
+              "value": "no",
+              "label": "No"
+            },
+            {
+              "value": "no_estoy_seguro",
+              "label": "No estoy seguro"
+            }
+          ],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.G-06"
+        },
+        {
+          "id": "G-07",
+          "key": "uncontrolled_channels",
+          "label": "¿Existen prácticas actuales de envío de documentos por canales poco controlados que deberían reducirse?",
+          "type": "yes_no_unsure",
+          "required": false,
+          "options": [
+            {
+              "value": "si",
+              "label": "Sí"
+            },
+            {
+              "value": "no",
+              "label": "No"
+            },
+            {
+              "value": "no_estoy_seguro",
+              "label": "No estoy seguro"
+            }
+          ],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.G-07"
+        },
+        {
+          "id": "G-08",
+          "key": "uncontrolled_channels_details",
+          "label": "Si respondió sí, descríbalas.",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "conditional",
+            "question_id": "G-07",
+            "operator": "equals",
+            "value": "si"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.G-08"
+        }
+      ]
+    },
+    {
+      "id": "H",
+      "title": "Información que el sistema debería vigilar",
+      "category": "common",
+      "audience": "all",
+      "description": "Alertas, vencimientos, validaciones y vistas de control.",
+      "questions": [
+        {
+          "id": "H-01",
+          "key": "automatic_alert_events",
+          "label": "¿Qué eventos deberían generar una alerta automática?",
+          "type": "multi_select",
+          "required": true,
+          "options": [
+            {
+              "value": "documento_obligatorio_faltante",
+              "label": "Documento obligatorio faltante"
+            },
+            {
+              "value": "documento_vencido",
+              "label": "Documento vencido"
+            },
+            {
+              "value": "contrato_proximo_a_finalizar",
+              "label": "Contrato próximo a finalizar"
+            },
+            {
+              "value": "prorroga_pendiente",
+              "label": "Prórroga pendiente"
+            },
+            {
+              "value": "certificado_proximo_a_vencer",
+              "label": "Certificado próximo a vencer"
+            },
+            {
+              "value": "examen_medico_pendiente_o_vencido",
+              "label": "Examen médico pendiente o vencido"
+            },
+            {
+              "value": "afiliacion_incompleta",
+              "label": "Afiliación incompleta"
+            },
+            {
+              "value": "novedad_sin_soporte",
+              "label": "Novedad sin soporte"
+            },
+            {
+              "value": "expediente_incompleto",
+              "label": "Expediente incompleto"
+            },
+            {
+              "value": "inconsistencia_entre_datos_y_documentos",
+              "label": "Inconsistencia entre datos y documentos"
+            },
+            {
+              "value": "otro",
+              "label": "Otro"
+            }
+          ],
+          "allow_other": true,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.H-01"
+        },
+        {
+          "id": "H-02",
+          "key": "alert_recipients",
+          "label": "¿Quién debería recibir esas alertas?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.H-02"
+        },
+        {
+          "id": "H-03",
+          "key": "alert_anticipation",
+          "label": "¿Con cuánta anticipación deberían generarse alertas de vencimiento?",
+          "type": "multi_select",
+          "required": false,
+          "options": [
+            {
+              "value": "el_mismo_dia",
+              "label": "El mismo día"
+            },
+            {
+              "value": "3_dias_antes",
+              "label": "3 días antes"
+            },
+            {
+              "value": "7_dias_antes",
+              "label": "7 días antes"
+            },
+            {
+              "value": "15_dias_antes",
+              "label": "15 días antes"
+            },
+            {
+              "value": "30_dias_antes",
+              "label": "30 días antes"
+            },
+            {
+              "value": "depende_del_tipo_de_documento",
+              "label": "Depende del tipo de documento"
+            }
+          ],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.H-03"
+        },
+        {
+          "id": "H-04",
+          "key": "useful_automatic_validations",
+          "label": "¿Qué validaciones automáticas evitarían más errores en la operación?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.H-04"
+        },
+        {
+          "id": "H-05",
+          "key": "needs_incomplete_files_view",
+          "label": "¿Debería existir una vista de “expedientes incompletos” o “pendientes por corregir”?",
+          "type": "yes_no_unsure",
+          "required": false,
+          "options": [
+            {
+              "value": "si",
+              "label": "Sí"
+            },
+            {
+              "value": "no",
+              "label": "No"
+            },
+            {
+              "value": "no_estoy_seguro",
+              "label": "No estoy seguro"
+            }
+          ],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.H-05"
+        },
+        {
+          "id": "H-06",
+          "key": "complete_file_criteria",
+          "label": "¿Qué criterios deberían definir que un expediente está “completo”?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.H-06"
+        }
+      ]
+    },
+    {
+      "id": "I",
+      "title": "Oportunidades de digitalización inteligente",
+      "category": "common",
+      "audience": "all",
+      "description": "OCR, clasificación automática, detección de duplicados y automatización útil.",
+      "questions": [
+        {
+          "id": "I-01",
+          "key": "automatable_tasks",
+          "label": "¿Qué tareas documentales considera más susceptibles de automatización?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.I-01"
+        },
+        {
+          "id": "I-02",
+          "key": "ocr_usefulness",
+          "label": "¿Sería útil que el sistema leyera documentos escaneados y extrajera información automáticamente?",
+          "type": "single_select",
+          "required": true,
+          "options": [
+            {
+              "value": "si_seria_muy_util",
+              "label": "Sí, sería muy útil"
+            },
+            {
+              "value": "si_pero_solo_en_algunos_documentos",
+              "label": "Sí, pero solo en algunos documentos"
+            },
+            {
+              "value": "no_lo_veo_necesario",
+              "label": "No lo veo necesario"
+            },
+            {
+              "value": "no_estoy_seguro",
+              "label": "No estoy seguro"
+            }
+          ],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.I-02"
+        },
+        {
+          "id": "I-03",
+          "key": "ocr_documents",
+          "label": "Si respondió sí, ¿qué documentos deberían poder leerse automáticamente mediante OCR o inteligencia documental?",
+          "type": "multi_select",
+          "required": false,
+          "options": [
+            {
+              "value": "cedula",
+              "label": "Cédula"
+            },
+            {
+              "value": "certificacion_bancaria",
+              "label": "Certificación bancaria"
+            },
+            {
+              "value": "certificados_de_afiliacion",
+              "label": "Certificados de afiliación"
+            },
+            {
+              "value": "contratos",
+              "label": "Contratos"
+            },
+            {
+              "value": "incapacidades",
+              "label": "Incapacidades"
+            },
+            {
+              "value": "examenes_medicos",
+              "label": "Exámenes médicos"
+            },
+            {
+              "value": "certificados_academicos",
+              "label": "Certificados académicos"
+            },
+            {
+              "value": "otrosies",
+              "label": "Otrosíes"
+            },
+            {
+              "value": "liquidaciones",
+              "label": "Liquidaciones"
+            },
+            {
+              "value": "otro",
+              "label": "Otro"
+            }
+          ],
+          "allow_other": true,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "conditional",
+            "question_id": "I-02",
+            "operator": "in",
+            "values": [
+              "si_seria_muy_util",
+              "si_pero_solo_en_algunos_documentos"
+            ]
+          },
+          "validation": {},
+          "export_path": "answers.I-03"
+        },
+        {
+          "id": "I-04",
+          "key": "ocr_data_to_extract",
+          "label": "¿Qué datos sería útil extraer automáticamente de esos documentos?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "conditional",
+            "question_id": "I-02",
+            "operator": "in",
+            "values": [
+              "si_seria_muy_util",
+              "si_pero_solo_en_algunos_documentos"
+            ]
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.I-04"
+        },
+        {
+          "id": "I-05",
+          "key": "auto_document_category",
+          "label": "¿Sería útil que el sistema sugiriera la categoría correcta de un documento al subirlo?",
+          "type": "yes_no_unsure",
+          "required": false,
+          "options": [
+            {
+              "value": "si",
+              "label": "Sí"
+            },
+            {
+              "value": "no",
+              "label": "No"
+            },
+            {
+              "value": "no_estoy_seguro",
+              "label": "No estoy seguro"
+            }
+          ],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.I-05"
+        },
+        {
+          "id": "I-06",
+          "key": "duplicate_detection",
+          "label": "¿Sería útil que el sistema detectara posibles documentos duplicados?",
+          "type": "yes_no_unsure",
+          "required": false,
+          "options": [
+            {
+              "value": "si",
+              "label": "Sí"
+            },
+            {
+              "value": "no",
+              "label": "No"
+            },
+            {
+              "value": "no_estoy_seguro",
+              "label": "No estoy seguro"
+            }
+          ],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.I-06"
+        },
+        {
+          "id": "I-07",
+          "key": "consistency_detection",
+          "label": "¿Sería útil que el sistema detectara inconsistencias entre la información digitada y los documentos cargados?",
+          "type": "yes_no_unsure",
+          "required": false,
+          "options": [
+            {
+              "value": "si",
+              "label": "Sí"
+            },
+            {
+              "value": "no",
+              "label": "No"
+            },
+            {
+              "value": "no_estoy_seguro",
+              "label": "No estoy seguro"
+            }
+          ],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.I-07"
+        },
+        {
+          "id": "I-08",
+          "key": "highest_impact_automation",
+          "label": "¿Qué automatización considera que tendría mayor impacto inmediato en su trabajo?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.I-08"
+        },
+        {
+          "id": "I-09",
+          "key": "automation_needing_human_validation",
+          "label": "¿Qué automatización le parecería riesgosa o requeriría validación humana obligatoria?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.I-09"
+        }
+      ]
+    },
+    {
+      "id": "J",
+      "title": "Descubrimiento de mejora profunda",
+      "category": "common",
+      "audience": "all",
+      "description": "Preguntas diseñadas para revelar fricciones normalizadas y oportunidades ocultas.",
+      "questions": [
+        {
+          "id": "J-01",
+          "key": "normalized_time_waster",
+          "label": "¿Qué tarea consume mucho tiempo, pero ya se volvió “normal” y por eso casi nadie la cuestiona?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.J-01"
+        },
+        {
+          "id": "J-02",
+          "key": "person_dependency",
+          "label": "¿Qué proceso depende demasiado de la memoria o experiencia de una persona específica?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.J-02"
+        },
+        {
+          "id": "J-03",
+          "key": "information_should_be_in_seconds",
+          "label": "¿Qué información debería estar disponible en segundos, pero hoy exige revisar varias carpetas, archivos o conversaciones?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.J-03"
+        },
+        {
+          "id": "J-04",
+          "key": "repeated_errors",
+          "label": "¿Qué errores se repiten una y otra vez a pesar de que el equipo ya sabe que ocurren?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.J-04"
+        },
+        {
+          "id": "J-05",
+          "key": "interruption_source",
+          "label": "¿Qué parte del proceso genera más interrupciones, llamadas, mensajes o consultas internas?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.J-05"
+        },
+        {
+          "id": "J-06",
+          "key": "manual_because_always_done",
+          "label": "¿Qué actividad se hace manualmente porque “siempre se ha hecho así”, aunque parezca mejorable?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.J-06"
+        },
+        {
+          "id": "J-07",
+          "key": "one_friction_to_remove",
+          "label": "Si pudiera eliminar una sola fricción del proceso documental actual, ¿cuál sería?",
+          "type": "textarea",
+          "required": true,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.J-07"
+        },
+        {
+          "id": "J-08",
+          "key": "ideal_screen_information",
+          "label": "Si pudiera diseñar una pantalla ideal para trabajar mejor, ¿qué información debería ver primero?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.J-08"
+        },
+        {
+          "id": "J-09",
+          "key": "missing_question",
+          "label": "¿Qué pregunta importante no le hemos hecho en este cuestionario y considera necesaria para entender la realidad del proceso?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.J-09"
+        }
+      ]
+    },
+    {
+      "id": "K",
+      "title": "Valor, urgencia y primera versión",
+      "category": "common",
+      "audience": "all",
+      "description": "Priorización de problemas, funcionalidades y urgencia de digitalización.",
+      "questions": [
+        {
+          "id": "K-01",
+          "key": "top_problems_to_solve",
+          "label": "Seleccione los cinco problemas que más deberían resolverse.",
+          "type": "ranking",
+          "required": true,
+          "options": [
+            {
+              "value": "documentos_extraviados",
+              "label": "Documentos extraviados"
+            },
+            {
+              "value": "documentos_duplicados",
+              "label": "Documentos duplicados"
+            },
+            {
+              "value": "versiones_contradictorias_de_un_mismo_documento",
+              "label": "Versiones contradictorias de un mismo documento"
+            },
+            {
+              "value": "expedientes_incompletos",
+              "label": "Expedientes incompletos"
+            },
+            {
+              "value": "archivos_fisicos_deteriorados",
+              "label": "Archivos físicos deteriorados"
+            },
+            {
+              "value": "busquedas_demasiado_lentas",
+              "label": "Búsquedas demasiado lentas"
+            },
+            {
+              "value": "dependencia_de_una_persona_especifica",
+              "label": "Dependencia de una persona específica"
+            },
+            {
+              "value": "falta_de_claridad_sobre_quien_actualizo_algo",
+              "label": "Falta de claridad sobre quién actualizó algo"
+            },
+            {
+              "value": "falta_de_alertas_sobre_documentos_vencidos_o_faltantes",
+              "label": "Falta de alertas sobre documentos vencidos o faltantes"
+            },
+            {
+              "value": "errores_en_clasificacion",
+              "label": "Errores en clasificación"
+            },
+            {
+              "value": "informacion_distinta_en_varias_fuentes",
+              "label": "Información distinta en varias fuentes"
+            },
+            {
+              "value": "dificultad_para_atender_auditorias",
+              "label": "Dificultad para atender auditorías"
+            },
+            {
+              "value": "reprocesos_por_solicitudes_repetidas",
+              "label": "Reprocesos por solicitudes repetidas"
+            }
+          ],
+          "allow_other": false,
+          "help_text": "Ordénelos del más importante al menos importante.",
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.K-01"
+        },
+        {
+          "id": "K-02",
+          "key": "top_problem_dimensions",
+          "label": "Para cada problema priorizado, califique frecuencia, impacto operativo, riesgo legal/documental y urgencia.",
+          "type": "matrix_scale",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.K-02"
+        },
+        {
+          "id": "K-03",
+          "key": "mvp_features",
+          "label": "¿Qué funcionalidades considera indispensables en una primera versión del sistema?",
+          "type": "multi_select",
+          "required": true,
+          "options": [
+            {
+              "value": "expediente_unico_por_trabajador",
+              "label": "Expediente único por trabajador"
+            },
+            {
+              "value": "carga_y_clasificacion_de_documentos",
+              "label": "Carga y clasificación de documentos"
+            },
+            {
+              "value": "busqueda_rapida",
+              "label": "Búsqueda rápida"
+            },
+            {
+              "value": "historial_de_contratos",
+              "label": "Historial de contratos"
+            },
+            {
+              "value": "control_de_documentos_faltantes",
+              "label": "Control de documentos faltantes"
+            },
+            {
+              "value": "alertas_de_vencimiento",
+              "label": "Alertas de vencimiento"
+            },
+            {
+              "value": "permisos_por_rol",
+              "label": "Permisos por rol"
+            },
+            {
+              "value": "trazabilidad_de_cambios",
+              "label": "Trazabilidad de cambios"
+            },
+            {
+              "value": "reportes",
+              "label": "Reportes"
+            },
+            {
+              "value": "ocr_extraccion_automatica_de_datos",
+              "label": "OCR / extracción automática de datos"
+            },
+            {
+              "value": "deteccion_de_duplicados",
+              "label": "Detección de duplicados"
+            },
+            {
+              "value": "validacion_de_consistencia",
+              "label": "Validación de consistencia"
+            },
+            {
+              "value": "dashboard_de_pendientes",
+              "label": "Dashboard de pendientes"
+            },
+            {
+              "value": "otro",
+              "label": "Otro"
+            }
+          ],
+          "allow_other": true,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.K-03"
+        },
+        {
+          "id": "K-04",
+          "key": "later_features",
+          "label": "¿Qué funcionalidades serían valiosas, pero podrían esperar una fase posterior?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.K-04"
+        },
+        {
+          "id": "K-05",
+          "key": "proof_of_value",
+          "label": "¿Qué resultado concreto haría que usted dijera: “este sistema realmente nos resolvió un problema importante”?",
+          "type": "textarea",
+          "required": true,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.K-05"
+        },
+        {
+          "id": "K-06",
+          "key": "digitization_urgency",
+          "label": "En una escala de 1 a 5, ¿qué tan urgente considera digitalizar y reorganizar este frente documental?",
+          "type": "scale_1_5",
+          "required": true,
+          "options": [
+            {
+              "value": "1",
+              "label": "1"
+            },
+            {
+              "value": "2",
+              "label": "2"
+            },
+            {
+              "value": "3",
+              "label": "3"
+            },
+            {
+              "value": "4",
+              "label": "4"
+            },
+            {
+              "value": "5",
+              "label": "5"
+            }
+          ],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.K-06"
+        },
+        {
+          "id": "K-07",
+          "key": "digitization_urgency_reason",
+          "label": "Explique su calificación.",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.K-07"
+        }
+      ]
+    },
+    {
+      "id": "L",
+      "title": "Talento humano / contratación",
+      "category": "module",
+      "audience": "module_specific",
+      "module_key": "talento_contratacion",
+      "description": "Vinculación, contratación y mantenimiento del expediente.",
+      "questions": [
+        {
+          "id": "L-01",
+          "key": "approved_hire_flow",
+          "label": "Describa el flujo exacto desde que se aprueba la contratación de una persona hasta que queda lista para iniciar labores.",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 5000
+          },
+          "export_path": "answers.L-01"
+        },
+        {
+          "id": "L-02",
+          "key": "prehire_documents",
+          "label": "¿Qué documentos se solicitan antes de contratar?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.L-02"
+        },
+        {
+          "id": "L-03",
+          "key": "documents_delaying_hiring",
+          "label": "¿Qué documentos suelen retrasar más el proceso de contratación?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.L-03"
+        },
+        {
+          "id": "L-04",
+          "key": "how_complete_documentation_is_validated",
+          "label": "¿Cómo se valida que el aspirante entregó todos los documentos requeridos?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.L-04"
+        },
+        {
+          "id": "L-05",
+          "key": "checklists_exist",
+          "label": "¿Existen checklist por cargo, cliente, empresa usuaria o modalidad de contratación?",
+          "type": "single_select",
+          "required": false,
+          "options": [
+            {
+              "value": "si",
+              "label": "Sí"
+            },
+            {
+              "value": "no",
+              "label": "No"
+            },
+            {
+              "value": "parcialmente",
+              "label": "Parcialmente"
+            }
+          ],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.L-05"
+        },
+        {
+          "id": "L-06",
+          "key": "checklists_details",
+          "label": "Si existen, describa cómo funcionan hoy.",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "conditional",
+            "question_id": "L-05",
+            "operator": "in",
+            "values": [
+              "si",
+              "parcialmente"
+            ]
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.L-06"
+        },
+        {
+          "id": "L-07",
+          "key": "manually_transcribed_information",
+          "label": "¿Qué información se transcribe manualmente desde documentos a formatos internos o sistemas?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.L-07"
+        },
+        {
+          "id": "L-08",
+          "key": "typing_errors_locations",
+          "label": "¿En qué parte del proceso se presentan más errores de digitación o inconsistencias?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.L-08"
+        },
+        {
+          "id": "L-09",
+          "key": "contracts_management_currently",
+          "label": "¿Cómo se gestiona actualmente la elaboración, revisión, firma y archivo de contratos?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.L-09"
+        },
+        {
+          "id": "L-10",
+          "key": "contract_related_docs_linking",
+          "label": "¿Cómo se vinculan otrosíes, prórrogas y liquidaciones con el contrato correspondiente?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.L-10"
+        },
+        {
+          "id": "L-11",
+          "key": "contract_history_ease",
+          "label": "¿Es fácil conocer el historial contractual completo de un trabajador?",
+          "type": "scale_1_5",
+          "required": false,
+          "options": [
+            {
+              "value": "1",
+              "label": "1"
+            },
+            {
+              "value": "2",
+              "label": "2"
+            },
+            {
+              "value": "3",
+              "label": "3"
+            },
+            {
+              "value": "4",
+              "label": "4"
+            },
+            {
+              "value": "5",
+              "label": "5"
+            }
+          ],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.L-11"
+        },
+        {
+          "id": "L-12",
+          "key": "ideal_worker_card_for_hiring",
+          "label": "¿Qué debería mostrar idealmente la ficha de un trabajador para que el equipo de contratación trabaje mejor?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.L-12"
+        },
+        {
+          "id": "L-13",
+          "key": "hiring_alerts",
+          "label": "¿Qué alertas relacionadas con contratación o vigencia contractual serían más útiles?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.L-13"
+        }
+      ]
+    },
+    {
+      "id": "M",
+      "title": "Archivo / gestión documental",
+      "category": "module",
+      "audience": "module_specific",
+      "module_key": "archivo_gestion_documental",
+      "description": "Organización, digitalización y control de archivos.",
+      "questions": [
+        {
+          "id": "M-01",
+          "key": "documents_received_how",
+          "label": "¿Cómo se reciben hoy los documentos físicos y digitales?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.M-01"
+        },
+        {
+          "id": "M-02",
+          "key": "physical_folders_criteria",
+          "label": "¿Qué criterios se usan para organizar carpetas físicas?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.M-02"
+        },
+        {
+          "id": "M-03",
+          "key": "digital_folders_criteria",
+          "label": "¿Qué criterios se usan para organizar carpetas o archivos digitales?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.M-03"
+        },
+        {
+          "id": "M-04",
+          "key": "file_naming_rules_exist",
+          "label": "¿Existen reglas de nombramiento de archivos?",
+          "type": "single_select",
+          "required": false,
+          "options": [
+            {
+              "value": "si",
+              "label": "Sí"
+            },
+            {
+              "value": "no",
+              "label": "No"
+            },
+            {
+              "value": "parcialmente",
+              "label": "Parcialmente"
+            }
+          ],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.M-04"
+        },
+        {
+          "id": "M-05",
+          "key": "file_naming_rules_details",
+          "label": "Si existen, descríbalas.",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "conditional",
+            "question_id": "M-04",
+            "operator": "in",
+            "values": [
+              "si",
+              "parcialmente"
+            ]
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.M-05"
+        },
+        {
+          "id": "M-06",
+          "key": "filing_errors",
+          "label": "¿Qué errores de archivo o clasificación son más frecuentes?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.M-06"
+        },
+        {
+          "id": "M-07",
+          "key": "file_completeness_control",
+          "label": "¿Cómo se controla que un expediente esté completo?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.M-07"
+        },
+        {
+          "id": "M-08",
+          "key": "scanning_frequency",
+          "label": "¿Con qué frecuencia se escanean documentos?",
+          "type": "single_select",
+          "required": false,
+          "options": [
+            {
+              "value": "todos_los_dias",
+              "label": "Todos los días"
+            },
+            {
+              "value": "varias_veces_por_semana",
+              "label": "Varias veces por semana"
+            },
+            {
+              "value": "varias_veces_por_mes",
+              "label": "Varias veces por mes"
+            },
+            {
+              "value": "ocasionalmente",
+              "label": "Ocasionalmente"
+            },
+            {
+              "value": "no_se_escanean_regularmente",
+              "label": "No se escanean regularmente"
+            }
+          ],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.M-08"
+        },
+        {
+          "id": "M-09",
+          "key": "scanning_problems",
+          "label": "¿Qué problemas se presentan durante la digitalización o escaneo?",
+          "type": "multi_select",
+          "required": false,
+          "options": [
+            {
+              "value": "mala_calidad_del_escaneo",
+              "label": "Mala calidad del escaneo"
+            },
+            {
+              "value": "archivos_mal_nombrados",
+              "label": "Archivos mal nombrados"
+            },
+            {
+              "value": "paginas_incompletas",
+              "label": "Páginas incompletas"
+            },
+            {
+              "value": "documentos_mezclados",
+              "label": "Documentos mezclados"
+            },
+            {
+              "value": "duplicidad",
+              "label": "Duplicidad"
+            },
+            {
+              "value": "perdida_de_relacion_con_el_trabajador",
+              "label": "Pérdida de relación con el trabajador"
+            },
+            {
+              "value": "otro",
+              "label": "Otro"
+            }
+          ],
+          "allow_other": true,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.M-09"
+        },
+        {
+          "id": "M-10",
+          "key": "physical_retention_needed",
+          "label": "¿Hay documentos físicos que deban conservarse aun después de digitalizarlos?",
+          "type": "yes_no_unsure",
+          "required": false,
+          "options": [
+            {
+              "value": "si",
+              "label": "Sí"
+            },
+            {
+              "value": "no",
+              "label": "No"
+            },
+            {
+              "value": "no_estoy_seguro",
+              "label": "No estoy seguro"
+            }
+          ],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.M-10"
+        },
+        {
+          "id": "M-11",
+          "key": "physical_retention_details",
+          "label": "Si respondió sí, explique cuáles y por qué.",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "conditional",
+            "question_id": "M-10",
+            "operator": "equals",
+            "value": "si"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.M-11"
+        },
+        {
+          "id": "M-12",
+          "key": "archive_requests",
+          "label": "¿Qué consultas o solicitudes recibe con mayor frecuencia el área de archivo?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.M-12"
+        },
+        {
+          "id": "M-13",
+          "key": "document_management_indicator",
+          "label": "¿Qué indicador mostraría mejor que la gestión documental está mejorando?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.M-13"
+        }
+      ]
+    },
+    {
+      "id": "N",
+      "title": "Seguridad social / administración laboral",
+      "category": "module",
+      "audience": "module_specific",
+      "module_key": "seguridad_social_administracion_laboral",
+      "description": "Afiliaciones, soportes y novedades.",
+      "questions": [
+        {
+          "id": "N-01",
+          "key": "social_security_documents",
+          "label": "¿Qué documentos o soportes se gestionan para EPS, AFP, ARL y caja de compensación?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.N-01"
+        },
+        {
+          "id": "N-02",
+          "key": "social_security_validation",
+          "label": "¿Cómo se verifica que la documentación de afiliación esté completa y correcta?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.N-02"
+        },
+        {
+          "id": "N-03",
+          "key": "social_security_errors",
+          "label": "¿Qué errores o inconsistencias se presentan con mayor frecuencia en estos soportes?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.N-03"
+        },
+        {
+          "id": "N-04",
+          "key": "quick_data_for_social_security",
+          "label": "¿Qué datos deben consultarse rápidamente para resolver una novedad de seguridad social?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.N-04"
+        },
+        {
+          "id": "N-05",
+          "key": "leave_or_medical_novelty_storage",
+          "label": "¿Cómo se almacenan los soportes de incapacidades, licencias o novedades médicas?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.N-05"
+        },
+        {
+          "id": "N-06",
+          "key": "novedad_relation_ease",
+          "label": "¿Es fácil relacionar cada incapacidad o novedad con el trabajador correcto y su historial?",
+          "type": "scale_1_5",
+          "required": false,
+          "options": [
+            {
+              "value": "1",
+              "label": "1"
+            },
+            {
+              "value": "2",
+              "label": "2"
+            },
+            {
+              "value": "3",
+              "label": "3"
+            },
+            {
+              "value": "4",
+              "label": "4"
+            },
+            {
+              "value": "5",
+              "label": "5"
+            }
+          ],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.N-06"
+        },
+        {
+          "id": "N-07",
+          "key": "social_security_alerts",
+          "label": "¿Qué alertas o controles automáticos serían útiles en seguridad social?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.N-07"
+        },
+        {
+          "id": "N-08",
+          "key": "manual_periodic_reports",
+          "label": "¿Qué reportes periódicos requieren construir manualmente?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.N-08"
+        },
+        {
+          "id": "N-09",
+          "key": "duplicate_support_requests",
+          "label": "¿Existen documentos o soportes que diferentes áreas piden por separado, generando duplicidad?",
+          "type": "yes_no_unsure",
+          "required": false,
+          "options": [
+            {
+              "value": "si",
+              "label": "Sí"
+            },
+            {
+              "value": "no",
+              "label": "No"
+            },
+            {
+              "value": "no_estoy_seguro",
+              "label": "No estoy seguro"
+            }
+          ],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.N-09"
+        },
+        {
+          "id": "N-10",
+          "key": "duplicate_support_requests_details",
+          "label": "Si respondió sí, describa cuáles.",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "conditional",
+            "question_id": "N-09",
+            "operator": "equals",
+            "value": "si"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.N-10"
+        }
+      ]
+    },
+    {
+      "id": "O",
+      "title": "SG-SST",
+      "category": "module",
+      "audience": "module_specific",
+      "module_key": "sg_sst",
+      "description": "Salud ocupacional, evidencias y trazabilidad.",
+      "questions": [
+        {
+          "id": "O-01",
+          "key": "sgsst_worker_documents",
+          "label": "¿Qué documentos de SG-SST deben asociarse al trabajador?",
+          "type": "multi_select",
+          "required": false,
+          "options": [
+            {
+              "value": "examenes_medicos_de_ingreso",
+              "label": "Exámenes médicos de ingreso"
+            },
+            {
+              "value": "examenes_periodicos",
+              "label": "Exámenes periódicos"
+            },
+            {
+              "value": "examenes_de_retiro",
+              "label": "Exámenes de retiro"
+            },
+            {
+              "value": "entrega_de_epp",
+              "label": "Entrega de EPP"
+            },
+            {
+              "value": "capacitaciones",
+              "label": "Capacitaciones"
+            },
+            {
+              "value": "asistencias_firmadas",
+              "label": "Asistencias firmadas"
+            },
+            {
+              "value": "reportes_de_incidentes",
+              "label": "Reportes de incidentes"
+            },
+            {
+              "value": "accidentes_laborales",
+              "label": "Accidentes laborales"
+            },
+            {
+              "value": "restricciones_o_recomendaciones",
+              "label": "Restricciones o recomendaciones"
+            },
+            {
+              "value": "otro",
+              "label": "Otro"
+            }
+          ],
+          "allow_other": true,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.O-01"
+        },
+        {
+          "id": "O-02",
+          "key": "sgsst_document_control",
+          "label": "¿Cómo se controla actualmente que esos documentos existan y estén disponibles?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.O-02"
+        },
+        {
+          "id": "O-03",
+          "key": "hardest_sgsst_docs_to_find",
+          "label": "¿Qué documentos de SG-SST son más difíciles de ubicar cuando se necesitan?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.O-03"
+        },
+        {
+          "id": "O-04",
+          "key": "sgsst_audits",
+          "label": "¿Qué revisiones o auditorías de SG-SST requieren consultar expedientes documentales?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.O-04"
+        },
+        {
+          "id": "O-05",
+          "key": "sgsst_alerts_periodicity",
+          "label": "¿Qué vencimientos, periodicidades o controles deberían generar alertas automáticas?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.O-05"
+        },
+        {
+          "id": "O-06",
+          "key": "sgsst_relation_worker_risk_docs",
+          "label": "¿Qué relación debería existir entre el trabajador, su cargo, el riesgo asociado y los documentos SG-SST exigidos?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.O-06"
+        },
+        {
+          "id": "O-07",
+          "key": "sgsst_compliance_view_value",
+          "label": "¿Qué problemas actuales podrían mitigarse con una vista de cumplimiento SG-SST por trabajador o por empresa usuaria?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.O-07"
+        },
+        {
+          "id": "O-08",
+          "key": "sgsst_indicators_reports",
+          "label": "¿Qué indicadores o reportes serían valiosos para SG-SST?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.O-08"
+        }
+      ]
+    },
+    {
+      "id": "P",
+      "title": "Jurídica / auditoría / cumplimiento",
+      "category": "module",
+      "audience": "module_specific",
+      "module_key": "juridica_auditoria_cumplimiento",
+      "description": "Evidencia, control y respuesta a requerimientos.",
+      "questions": [
+        {
+          "id": "P-01",
+          "key": "legal_requirements",
+          "label": "¿Qué tipos de requerimientos legales, auditorías o solicitudes externas exigen revisar expedientes laborales?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.P-01"
+        },
+        {
+          "id": "P-02",
+          "key": "critical_legal_documents",
+          "label": "¿Qué información o documentos suelen ser más críticos en esos requerimientos?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.P-02"
+        },
+        {
+          "id": "P-03",
+          "key": "audit_support_difficulties",
+          "label": "¿Qué dificultades aparecen al preparar soportes para auditoría o defensa documental?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.P-03"
+        },
+        {
+          "id": "P-04",
+          "key": "importance_version_history",
+          "label": "¿Qué tan importante es conservar histórico de versiones, reemplazos o actualizaciones documentales?",
+          "type": "scale_1_5",
+          "required": false,
+          "options": [
+            {
+              "value": "1",
+              "label": "1"
+            },
+            {
+              "value": "2",
+              "label": "2"
+            },
+            {
+              "value": "3",
+              "label": "3"
+            },
+            {
+              "value": "4",
+              "label": "4"
+            },
+            {
+              "value": "5",
+              "label": "5"
+            }
+          ],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.P-04"
+        },
+        {
+          "id": "P-05",
+          "key": "traceability_events_for_control",
+          "label": "¿Qué eventos deberían quedar registrados en una bitácora de trazabilidad para fines de control o defensa?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.P-05"
+        },
+        {
+          "id": "P-06",
+          "key": "missing_docs_high_risk",
+          "label": "¿Existen documentos cuya ausencia pueda generar un riesgo alto para la empresa?",
+          "type": "yes_no_unsure",
+          "required": false,
+          "options": [
+            {
+              "value": "si",
+              "label": "Sí"
+            },
+            {
+              "value": "no",
+              "label": "No"
+            },
+            {
+              "value": "no_estoy_seguro",
+              "label": "No estoy seguro"
+            }
+          ],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.P-06"
+        },
+        {
+          "id": "P-07",
+          "key": "missing_docs_high_risk_details",
+          "label": "Si respondió sí, enumérelos y explique el riesgo.",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "conditional",
+            "question_id": "P-06",
+            "operator": "equals",
+            "value": "si"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.P-07"
+        },
+        {
+          "id": "P-08",
+          "key": "reports_to_anticipate_risk",
+          "label": "¿Qué reportes ayudarían a anticipar riesgos de incumplimiento documental?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.P-08"
+        },
+        {
+          "id": "P-09",
+          "key": "fast_export_for_audit",
+          "label": "¿Qué información debería poder exportarse con rapidez ante una auditoría o requerimiento?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.P-09"
+        }
+      ]
+    },
+    {
+      "id": "Q",
+      "title": "Dirección / coordinación",
+      "category": "module",
+      "audience": "module_specific",
+      "module_key": "direccion_coordinacion",
+      "description": "Visión de control, productividad y priorización.",
+      "questions": [
+        {
+          "id": "Q-01",
+          "key": "top_management_problems",
+          "label": "Desde una perspectiva de gestión, ¿cuáles son los tres mayores problemas del proceso documental actual?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.Q-01"
+        },
+        {
+          "id": "Q-02",
+          "key": "management_impact",
+          "label": "¿Qué impacto generan esos problemas en productividad, cumplimiento, control o servicio interno?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.Q-02"
+        },
+        {
+          "id": "Q-03",
+          "key": "management_dashboard_info",
+          "label": "¿Qué información debería poder visualizar una jefatura en un tablero general?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.Q-03"
+        },
+        {
+          "id": "Q-04",
+          "key": "control_indicators",
+          "label": "¿Qué indicadores ayudarían a saber si el proceso documental está bajo control?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.Q-04"
+        },
+        {
+          "id": "Q-05",
+          "key": "decisions_improved_by_centralization",
+          "label": "¿Qué decisiones de gestión podrían mejorar si la información documental estuviera centralizada y actualizada?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.Q-05"
+        },
+        {
+          "id": "Q-06",
+          "key": "implementation_priorities",
+          "label": "¿Qué áreas o procesos deberían priorizarse en una primera implementación?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.Q-06"
+        },
+        {
+          "id": "Q-07",
+          "key": "risks_of_bad_fit_solution",
+          "label": "¿Qué riesgos tendría implementar una solución que no se adapte al trabajo real del equipo?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.Q-07"
+        },
+        {
+          "id": "Q-08",
+          "key": "change_management_level",
+          "label": "¿Qué nivel de cambio organizacional cree que exigirá adoptar el sistema?",
+          "type": "single_select",
+          "required": false,
+          "options": [
+            {
+              "value": "bajo",
+              "label": "Bajo"
+            },
+            {
+              "value": "medio",
+              "label": "Medio"
+            },
+            {
+              "value": "alto",
+              "label": "Alto"
+            },
+            {
+              "value": "no_estoy_seguro",
+              "label": "No estoy seguro"
+            }
+          ],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.Q-08"
+        },
+        {
+          "id": "Q-09",
+          "key": "adoption_conditions",
+          "label": "¿Qué condiciones deberían cumplirse para que el equipo adopte realmente la solución?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.Q-09"
+        }
+      ]
+    },
+    {
+      "id": "R",
+      "title": "Información técnica e integraciones",
+      "category": "module",
+      "audience": "module_specific",
+      "module_key": "informacion_tecnica_integraciones",
+      "description": "Herramientas actuales, duplicidades, movilidad y exportaciones.",
+      "questions": [
+        {
+          "id": "R-01",
+          "key": "current_tools",
+          "label": "¿Qué herramientas o sistemas utiliza hoy la empresa para gestionar información de trabajadores?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.R-01"
+        },
+        {
+          "id": "R-02",
+          "key": "sources_to_connect_or_migrate",
+          "label": "¿Existen bases de datos, archivos Excel, carpetas compartidas o sistemas internos que contengan información que debería conectarse o migrarse?",
+          "type": "yes_no_unsure",
+          "required": false,
+          "options": [
+            {
+              "value": "si",
+              "label": "Sí"
+            },
+            {
+              "value": "no",
+              "label": "No"
+            },
+            {
+              "value": "no_estoy_seguro",
+              "label": "No estoy seguro"
+            }
+          ],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.R-02"
+        },
+        {
+          "id": "R-03",
+          "key": "sources_to_connect_or_migrate_details",
+          "label": "Si respondió sí, describa cuáles.",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "conditional",
+            "question_id": "R-02",
+            "operator": "equals",
+            "value": "si"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.R-03"
+        },
+        {
+          "id": "R-04",
+          "key": "duplicate_data_across_systems",
+          "label": "¿Hay información que se registra hoy en más de un sistema o archivo?",
+          "type": "yes_no_unsure",
+          "required": false,
+          "options": [
+            {
+              "value": "si",
+              "label": "Sí"
+            },
+            {
+              "value": "no",
+              "label": "No"
+            },
+            {
+              "value": "no_estoy_seguro",
+              "label": "No estoy seguro"
+            }
+          ],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.R-04"
+        },
+        {
+          "id": "R-05",
+          "key": "duplicate_data_details",
+          "label": "Si respondió sí, indique qué información se duplica.",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "conditional",
+            "question_id": "R-04",
+            "operator": "equals",
+            "value": "si"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.R-05"
+        },
+        {
+          "id": "R-06",
+          "key": "access_context",
+          "label": "¿El personal necesita acceder al sistema desde una oficina, varias sedes o en movilidad?",
+          "type": "single_select",
+          "required": false,
+          "options": [
+            {
+              "value": "solo_oficina",
+              "label": "Solo oficina"
+            },
+            {
+              "value": "varias_sedes",
+              "label": "Varias sedes"
+            },
+            {
+              "value": "oficina_y_trabajo_remoto",
+              "label": "Oficina y trabajo remoto"
+            },
+            {
+              "value": "tambien_desde_campo_o_desplazamiento",
+              "label": "También desde campo o desplazamiento"
+            },
+            {
+              "value": "no_estoy_seguro",
+              "label": "No estoy seguro"
+            }
+          ],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.R-06"
+        },
+        {
+          "id": "R-07",
+          "key": "device_access",
+          "label": "¿Se requiere acceso desde computador únicamente o también desde celular/tablet?",
+          "type": "multi_select",
+          "required": false,
+          "options": [
+            {
+              "value": "computador",
+              "label": "Computador"
+            },
+            {
+              "value": "tablet",
+              "label": "Tablet"
+            },
+            {
+              "value": "celular",
+              "label": "Celular"
+            },
+            {
+              "value": "no_estoy_seguro",
+              "label": "No estoy seguro"
+            }
+          ],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.R-07"
+        },
+        {
+          "id": "R-08",
+          "key": "needs_exports",
+          "label": "¿La empresa necesita descargar información en formatos como Excel, PDF o reportes consolidados?",
+          "type": "yes_no_unsure",
+          "required": false,
+          "options": [
+            {
+              "value": "si",
+              "label": "Sí"
+            },
+            {
+              "value": "no",
+              "label": "No"
+            },
+            {
+              "value": "no_estoy_seguro",
+              "label": "No estoy seguro"
+            }
+          ],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.R-08"
+        },
+        {
+          "id": "R-09",
+          "key": "priority_exports",
+          "label": "Si respondió sí, ¿qué exportaciones serían prioritarias?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "conditional",
+            "question_id": "R-08",
+            "operator": "equals",
+            "value": "si"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.R-09"
+        }
+      ]
+    },
+    {
+      "id": "S",
+      "title": "Casos reales y evidencia cualitativa",
+      "category": "closing",
+      "audience": "all",
+      "description": "Ejemplos concretos que ayudan a diseñar bien la solución.",
+      "questions": [
+        {
+          "id": "S-01",
+          "key": "real_case_hard_to_find_document",
+          "label": "Describa un caso real en el que encontrar un documento haya sido difícil, lento o crítico.",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 5000
+          },
+          "export_path": "answers.S-01"
+        },
+        {
+          "id": "S-02",
+          "key": "real_case_incomplete_file",
+          "label": "Describa un caso real de expediente incompleto o inconsistente y qué consecuencias tuvo.",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 5000
+          },
+          "export_path": "answers.S-02"
+        },
+        {
+          "id": "S-03",
+          "key": "real_case_audit",
+          "label": "Describa un caso real de auditoría, requerimiento o revisión en el que la organización documental haya sido determinante.",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 5000
+          },
+          "export_path": "answers.S-03"
+        },
+        {
+          "id": "S-04",
+          "key": "real_case_repeated_worker_request",
+          "label": "Describa un caso real donde se solicitó nuevamente al trabajador información que ya había entregado.",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 5000
+          },
+          "export_path": "answers.S-04"
+        },
+        {
+          "id": "S-05",
+          "key": "real_case_early_alert",
+          "label": "Describa un caso real donde una alerta temprana habría evitado un problema.",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 5000
+          },
+          "export_path": "answers.S-05"
+        },
+        {
+          "id": "S-06",
+          "key": "optional_supporting_file",
+          "label": "Si desea, adjunte o describa formatos, checklists, listados, capturas o ejemplos usados actualmente.",
+          "type": "file_optional",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": "La app registrará el nombre del archivo en el JSON. El archivo debe enviarse por separado si se requiere analizarlo.",
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.S-06"
+        }
+      ]
+    },
+    {
+      "id": "T",
+      "title": "Comentarios finales",
+      "category": "closing",
+      "audience": "all",
+      "description": "Cierre abierto y disponibilidad para profundizar.",
+      "questions": [
+        {
+          "id": "T-01",
+          "key": "anything_missing",
+          "label": "¿Hay algo importante sobre la gestión documental laboral que no se haya preguntado y considere esencial mencionar?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.T-01"
+        },
+        {
+          "id": "T-02",
+          "key": "expectation_for_future_solution",
+          "label": "¿Qué expectativa tendría usted frente a una futura solución digital de expedientes laborales?",
+          "type": "textarea",
+          "required": false,
+          "options": [],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {
+            "max_length": 3000
+          },
+          "export_path": "answers.T-02"
+        },
+        {
+          "id": "T-03",
+          "key": "available_for_followup",
+          "label": "¿Estaría dispuesto(a) a participar en una entrevista breve de profundización si se requiere aclarar alguna respuesta?",
+          "type": "single_select",
+          "required": false,
+          "options": [
+            {
+              "value": "si",
+              "label": "Sí"
+            },
+            {
+              "value": "no",
+              "label": "No"
+            }
+          ],
+          "allow_other": false,
+          "help_text": null,
+          "placeholder": null,
+          "visibility": {
+            "mode": "always"
+          },
+          "validation": {},
+          "export_path": "answers.T-03"
+        }
+      ]
+    }
+  ],
+  "module_routing": {
+    "talento_contratacion": {
+      "label": "Talento humano / contratación",
+      "area_values": [
+        "talento_humano",
+        "contratacion"
+      ],
+      "module_value": "talento_humano_contratacion",
+      "section_id": "L"
+    },
+    "archivo_gestion_documental": {
+      "label": "Archivo / gestión documental",
+      "area_values": [
+        "archivo_gestion_documental"
+      ],
+      "module_value": "archivo_gestion_documental",
+      "section_id": "M"
+    },
+    "seguridad_social_administracion_laboral": {
+      "label": "Seguridad social / administración laboral",
+      "area_values": [
+        "seguridad_social",
+        "nomina_administracion_laboral"
+      ],
+      "module_value": "seguridad_social_administracion_laboral",
+      "section_id": "N"
+    },
+    "sg_sst": {
+      "label": "SG-SST",
+      "area_values": [
+        "sg_sst"
+      ],
+      "module_value": "sg_sst",
+      "section_id": "O"
+    },
+    "juridica_auditoria_cumplimiento": {
+      "label": "Jurídica / auditoría / cumplimiento",
+      "area_values": [
+        "juridica_cumplimiento_auditoria"
+      ],
+      "module_value": "juridica_auditoria_cumplimiento",
+      "section_id": "P"
+    },
+    "direccion_coordinacion": {
+      "label": "Dirección / coordinación",
+      "area_values": [
+        "coordinacion_direccion"
+      ],
+      "module_value": "direccion_coordinacion",
+      "section_id": "Q"
+    },
+    "informacion_tecnica_integraciones": {
+      "label": "Información técnica e integraciones",
+      "area_values": [
+        "coordinacion_direccion"
+      ],
+      "module_value": "informacion_tecnica_e_integraciones",
+      "section_id": "R"
+    }
+  },
+  "export_schema": {
+    "submission_id": "uuid",
+    "submitted_at": "ISO-8601",
+    "timezone": "America/Bogota"
+  }
+};
+    const STORAGE_KEY = "rrhh_documental_discovery_v1_answers";
+    const APP_STATE_KEY = "rrhh_documental_discovery_v1_ui";
+    const ROLES = [
+      "Talento humano",
+      "Archivo",
+      "Seguridad social",
+      "SG-SST",
+      "Jurídica / Auditoría",
+      "Dirección",
+      "Administrador"
+    ];
+    const PERMISSION_ACTIONS = [
+      "Ver expediente",
+      "Ver datos personales",
+      "Ver información bancaria",
+      "Ver documentos médicos",
+      "Cargar documentos",
+      "Editar datos",
+      "Reemplazar documentos",
+      "Aprobar / validar",
+      "Eliminar",
+      "Descargar",
+      "Generar reportes"
+    ];
+    const MATRIX_DIMENSIONS = [
+      "Frecuencia",
+      "Impacto operativo",
+      "Riesgo legal/documental",
+      "Urgencia"
+    ];
+
+    const app = document.getElementById("app");
+    const resetTopBtn = document.getElementById("resetTopBtn");
+
+    let answers = loadJson(STORAGE_KEY, {});
+    let uiState = loadJson(APP_STATE_KEY, { screen: "welcome", currentSectionId: "A" });
+    let lastError = "";
+
+    function loadJson(key, fallback) {
+      try {
+        const raw = localStorage.getItem(key);
+        return raw ? JSON.parse(raw) : fallback;
+      } catch {
+        return fallback;
+      }
+    }
+
+    function saveState() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(answers));
+      localStorage.setItem(APP_STATE_KEY, JSON.stringify(uiState));
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function formatAnswerValue(value) {
+      if (value === undefined || value === null || value === "") return "—";
+      if (Array.isArray(value)) return value.length ? value.join(", ") : "—";
+      if (typeof value === "object") return "Registrado";
+      return String(value);
+    }
+
+    function nowBogotaIso() {
+      const now = new Date();
+      return now.toISOString();
+    }
+
+    function uuid() {
+      if (crypto?.randomUUID) return crypto.randomUUID();
+      return "sub_" + Math.random().toString(36).slice(2) + Date.now().toString(36);
+    }
+
+    function slug(value) {
+      return String(value ?? "")
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9]+/g, "_")
+        .replace(/^_+|_+$/g, "")
+        .slice(0, 60);
+    }
+
+    function optionLabel(question, value) {
+      const found = (question.options || []).find(o => o.value === value);
+      return found ? found.label : value;
+    }
+
+    function getAnswer(questionId) {
+      return answers[questionId]?.value;
+    }
+
+    function setAnswer(question, value, extra = {}, rerender = false) {
+      answers[question.id] = {
+        id: question.id,
+        key: question.key,
+        type: question.type,
+        label: question.label,
+        value,
+        ...extra
+      };
+      saveState();
+      if (rerender) render();
+    }
+
+    function setPartialComplexAnswer(question, patch) {
+      const current = answers[question.id]?.value || {};
+      setAnswer(question, { ...current, ...patch });
+    }
+
+    function getSelectedModules() {
+      const area = getAnswer("A-03");
+      const declaredModules = getAnswer("A-08") || [];
+      const selected = new Set();
+
+      Object.values(SCHEMA.module_routing).forEach(route => {
+        if ((route.area_values || []).includes(area)) selected.add(route.section_id);
+        if (declaredModules.includes(route.module_value)) selected.add(route.section_id);
+      });
+
+      return [...selected];
+    }
+
+    function getVisibleSections() {
+      const selectedModuleSectionIds = new Set(getSelectedModules());
+      return SCHEMA.sections.filter(section => {
+        if (section.category !== "module") return true;
+        return selectedModuleSectionIds.has(section.id);
+      });
+    }
+
+    function isQuestionVisible(question) {
+      const visibility = question.visibility || { mode: "always" };
+      if (visibility.mode === "always") return true;
+      const answer = getAnswer(visibility.question_id);
+      if (visibility.operator === "equals") return answer === visibility.value;
+      if (visibility.operator === "in") return (visibility.values || []).includes(answer);
+      return true;
+    }
+
+    function visibleQuestions(section) {
+      return section.questions.filter(isQuestionVisible);
+    }
+
+    function getCurrentSection() {
+      const sections = getVisibleSections();
+      const found = sections.find(section => section.id === uiState.currentSectionId);
+      if (found) return found;
+      uiState.currentSectionId = sections[0]?.id || "A";
+      saveState();
+      return sections[0];
+    }
+
+    function answered(question) {
+      const value = getAnswer(question.id);
+      if (question.type === "ranking") {
+        return Array.isArray(value) && value.length === 5 && new Set(value).size === 5 && value.every(Boolean);
+      }
+      if (question.type === "matrix_scale") {
+        return value && typeof value === "object" && Object.keys(value).length > 0;
+      }
+      if (question.type === "role_permission_matrix") {
+        return value && typeof value === "object" && Object.keys(value).length > 0;
+      }
+      if (question.type === "file_optional") {
+        return value && (value.description || (value.file_names || []).length);
+      }
+      if (Array.isArray(value)) return value.length > 0;
+      return value !== undefined && value !== null && String(value).trim() !== "";
+    }
+
+    function completionStats() {
+      const sections = getVisibleSections();
+      const questions = sections.flatMap(visibleQuestions);
+      const required = questions.filter(q => q.required);
+      const requiredAnswered = required.filter(answered).length;
+      const totalVisible = questions.length;
+      const totalAnswered = questions.filter(answered).length;
+      const percentage = required.length ? Math.round((requiredAnswered / required.length) * 100) : 0;
+      return { totalVisible, totalAnswered, required: required.length, requiredAnswered, percentage };
+    }
+
+    function sectionStats(section) {
+      const qs = visibleQuestions(section);
+      const req = qs.filter(q => q.required);
+      const reqAnswered = req.filter(answered).length;
+      return {
+        total: qs.length,
+        answered: qs.filter(answered).length,
+        required: req.length,
+        requiredAnswered: reqAnswered,
+        complete: req.length === 0 ? qs.some(answered) : req.length === reqAnswered
+      };
+    }
+
+    function validationErrorsForSection(section) {
+      const qs = visibleQuestions(section);
+      const errors = [];
+      qs.forEach(question => {
+        if (question.required && !answered(question)) {
+          errors.push(`${question.id}: ${question.label}`);
+        }
+      });
+      return errors;
+    }
+
+    function finalValidationErrors() {
+      const errors = [];
+      getVisibleSections().forEach(section => {
+        validationErrorsForSection(section).forEach(item => errors.push(item));
+      });
+      const t1 = String(getAnswer("T-01") || "").trim();
+      const t2 = String(getAnswer("T-02") || "").trim();
+      if (!t1 && !t2) {
+        errors.push("T-01 o T-02: complete al menos uno de los campos de cierre.");
+      }
+      return errors;
+    }
+
+    function renderWelcome() {
+      app.innerHTML = `
+        <section class="card hero">
+          <div>
+            <div class="eyebrow">Artefacto de descubrimiento</div>
+            <h2>${escapeHtml(SCHEMA.title)}</h2>
+            <p>
+              Este instrumento busca entender la operación real, los dolores cotidianos,
+              los riesgos documentales y las oportunidades de mejora que deben orientar
+              el diseño de la solución.
+            </p>
+            <div class="badge-row">
+              <span class="badge">${SCHEMA.estimated_minutes} min aprox.</span>
+              <span class="badge">20 secciones</span>
+              <span class="badge">Exporta JSON</span>
+              <span class="badge">Sin backend</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta">Las respuestas se guardan temporalmente en este navegador.</span>
+            </div>
+            <button class="btn" type="button" id="startBtn">Comenzar cuestionario</button>
+          </div>
+          <aside class="hero-side">
+            <h3>Qué permite descubrir</h3>
+            <ul>
+              <li>Procesos reales y excepciones operativas.</li>
+              <li>Documentos críticos, duplicidades y puntos de falla.</li>
+              <li>Necesidades por área y prioridades de primera versión.</li>
+              <li>Automatizaciones de mayor valor y riesgos que deben conservar validación humana.</li>
+            </ul>
+          </aside>
+        </section>
+      `;
+      document.getElementById("startBtn").onclick = () => {
+        uiState.screen = "questionnaire";
+        uiState.currentSectionId = "A";
+        saveState();
+        render();
+      };
+    }
+
+    function renderQuestionnaire() {
+      const current = getCurrentSection();
+      const sections = getVisibleSections();
+      const stats = completionStats();
+      const currentIndex = sections.findIndex(s => s.id === current.id);
+      const errorsHtml = lastError ? `<div class="error-box">${escapeHtml(lastError)}</div>` : "";
+
+      app.innerHTML = `
+        <section class="wizard">
+          <aside class="card sidebar">
+            <h3>Avance</h3>
+            <p>Responda con base en la operación real, no en el proceso ideal.</p>
+            <div class="progress-track"><div class="progress-bar" style="width:${stats.percentage}%"></div></div>
+            <div class="progress-copy">${stats.requiredAnswered}/${stats.required} campos obligatorios visibles completados · ${stats.percentage}%</div>
+            <div class="section-list">
+              ${sections.map(section => {
+                const s = sectionStats(section);
+                return `
+                  <button class="section-pill ${section.id === current.id ? "active" : ""}" data-section="${section.id}" type="button">
+                    ${escapeHtml(section.id)} · ${escapeHtml(section.title)}
+                    <span class="small">${s.answered}/${s.total} respuestas visibles</span>
+                  </button>
+                `;
+              }).join("")}
+            </div>
+          </aside>
+
+          <article class="card main-card">
+            <div class="eyebrow">Sección ${escapeHtml(current.id)}</div>
+            <h2>${escapeHtml(current.title)}</h2>
+            <p class="intro">${escapeHtml(current.description || "")}</p>
+            ${errorsHtml}
+            <div id="questionsMount">
+              ${visibleQuestions(current).map(renderQuestion).join("")}
+            </div>
+            <div class="nav-row">
+              <div class="nav-left">
+                <button class="secondary-btn" type="button" id="welcomeBtn">Inicio</button>
+                <button class="secondary-btn" type="button" id="prevBtn" ${currentIndex === 0 ? "disabled" : ""}>Anterior</button>
+              </div>
+              <div class="nav-right">
+                <button class="secondary-btn" type="button" id="reviewBtn">Revisar</button>
+                <button class="btn" type="button" id="nextBtn">${currentIndex === sections.length - 1 ? "Ir a revisión" : "Siguiente"}</button>
+              </div>
+            </div>
+          </article>
+        </section>
+      `;
+
+      wireQuestionEvents(current);
+
+      document.querySelectorAll("[data-section]").forEach(btn => {
+        btn.onclick = () => {
+          uiState.currentSectionId = btn.dataset.section;
+          lastError = "";
+          saveState();
+          render();
+        };
+      });
+
+      document.getElementById("welcomeBtn").onclick = () => {
+        uiState.screen = "welcome";
+        lastError = "";
+        saveState();
+        render();
+      };
+
+      document.getElementById("reviewBtn").onclick = () => {
+        uiState.screen = "review";
+        lastError = "";
+        saveState();
+        render();
+      };
+
+      document.getElementById("prevBtn").onclick = () => {
+        if (currentIndex > 0) {
+          uiState.currentSectionId = sections[currentIndex - 1].id;
+          lastError = "";
+          saveState();
+          render();
+        }
+      };
+
+      document.getElementById("nextBtn").onclick = () => {
+        const errors = validationErrorsForSection(current);
+        if (errors.length) {
+          lastError = `Complete antes los campos obligatorios de esta sección: ${errors.join(" · ")}`;
+          render();
+          return;
+        }
+        lastError = "";
+        if (currentIndex < sections.length - 1) {
+          uiState.currentSectionId = sections[currentIndex + 1].id;
+          saveState();
+          render();
+        } else {
+          uiState.screen = "review";
+          saveState();
+          render();
+        }
+      };
+    }
+
+    function renderQuestion(question) {
+      const required = question.required ? `<span class="required">*</span>` : "";
+      const help = question.help_text ? `<p class="help">${escapeHtml(question.help_text)}</p>` : "";
+      return `
+        <section class="question" data-question-block="${question.id}">
+          <label class="heading">${escapeHtml(question.id)}. ${escapeHtml(question.label)} ${required}</label>
+          ${help}
+          ${renderInput(question)}
+        </section>
+      `;
+    }
+
+    function renderInput(question) {
+      const value = getAnswer(question.id);
+      switch (question.type) {
+        case "text":
+          return `<input data-q="${question.id}" data-kind="text" type="text" value="${escapeHtml(value || "")}" placeholder="${escapeHtml(question.placeholder || "")}" />`;
+        case "number":
+          return `<input data-q="${question.id}" data-kind="number" type="number" min="${question.validation?.min ?? 0}" value="${escapeHtml(value ?? "")}" />`;
+        case "textarea":
+          return `<textarea data-q="${question.id}" data-kind="textarea" placeholder="${escapeHtml(question.placeholder || "")}">${escapeHtml(value || "")}</textarea>`;
+        case "single_select":
+        case "yes_no_na":
+        case "yes_no_unsure":
+          return renderSingleSelect(question, value);
+        case "multi_select":
+          return renderMultiSelect(question, value || []);
+        case "scale_1_5":
+          return renderSingleSelect(question, value);
+        case "ranking":
+          return renderRanking(question, value || ["","","","",""]);
+        case "matrix_scale":
+          return renderMatrixScale(question, value || {});
+        case "role_permission_matrix":
+          return renderRolePermissionMatrix(question, value || {});
+        case "file_optional":
+          return renderFileOptional(question, value || {});
+        default:
+          return `<textarea data-q="${question.id}" data-kind="textarea">${escapeHtml(value || "")}</textarea>`;
+      }
+    }
+
+    function renderSingleSelect(question, value) {
+      return `
+        <select data-q="${question.id}" data-kind="single_select">
+          <option value="">Seleccione una opción</option>
+          ${(question.options || []).map(option => `
+            <option value="${escapeHtml(option.value)}" ${value === option.value ? "selected" : ""}>${escapeHtml(option.label)}</option>
+          `).join("")}
+        </select>
+      `;
+    }
+
+    function renderMultiSelect(question, values) {
+      const selected = new Set(values || []);
+      const otherKey = `${question.id}__other`;
+      const otherValue = getAnswer(otherKey) || "";
+      return `
+        <div class="choice-grid">
+          ${(question.options || []).map(option => `
+            <label class="choice">
+              <input data-q="${question.id}" data-kind="multi_select" type="checkbox" value="${escapeHtml(option.value)}" ${selected.has(option.value) ? "checked" : ""} />
+              <span>${escapeHtml(option.label)}</span>
+            </label>
+          `).join("")}
+        </div>
+        ${question.allow_other ? `
+          <div class="inline-other">
+            <input data-q="${otherKey}" data-kind="other_text" type="text" value="${escapeHtml(otherValue)}" placeholder="Otro: especifique" />
+          </div>
+        ` : ""}
+      `;
+    }
+
+    function renderRanking(question, values) {
+      const normalized = Array.isArray(values) ? [...values] : ["","","","",""];
+      while (normalized.length < 5) normalized.push("");
+      return `
+        <div class="ranking-grid">
+          ${[0,1,2,3,4].map(index => `
+            <div class="ranking-row">
+              <div class="rank-label">Prioridad ${index + 1}</div>
+              <select data-q="${question.id}" data-kind="ranking" data-rank-index="${index}">
+                <option value="">Seleccione un problema</option>
+                ${(question.options || []).map(option => `
+                  <option value="${escapeHtml(option.value)}" ${normalized[index] === option.value ? "selected" : ""}>${escapeHtml(option.label)}</option>
+                `).join("")}
+              </select>
+            </div>
+          `).join("")}
+        </div>
+      `;
+    }
+
+    function renderMatrixScale(question, value) {
+      const selectedProblems = getAnswer("K-01") || [];
+      if (!selectedProblems.length) {
+        return `<p class="help">Primero priorice los problemas en K-01 para habilitar esta matriz.</p>`;
+      }
+      return `
+        <div class="matrix">
+          <table>
+            <thead>
+              <tr>
+                <th>Problema priorizado</th>
+                ${MATRIX_DIMENSIONS.map(d => `<th>${escapeHtml(d)}</th>`).join("")}
+              </tr>
+            </thead>
+            <tbody>
+              ${selectedProblems.filter(Boolean).map(problem => `
+                <tr>
+                  <td>${escapeHtml(labelFromK01(problem))}</td>
+                  ${MATRIX_DIMENSIONS.map(dim => {
+                    const current = value?.[problem]?.[dim] || "";
+                    return `
+                      <td>
+                        <select data-q="${question.id}" data-kind="matrix_scale" data-problem="${escapeHtml(problem)}" data-dim="${escapeHtml(dim)}">
+                          <option value="">—</option>
+                          ${["1","2","3","4","5"].map(score => `<option value="${score}" ${current === score ? "selected" : ""}>${score}</option>`).join("")}
+                        </select>
+                      </td>
+                    `;
+                  }).join("")}
+                </tr>
+              `).join("")}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    function labelFromK01(value) {
+      const q = SCHEMA.sections.flatMap(s => s.questions).find(item => item.id === "K-01");
+      return optionLabel(q, value);
+    }
+
+    function renderRolePermissionMatrix(question, value) {
+      return `
+        <div class="matrix">
+          <table>
+            <thead>
+              <tr>
+                <th>Acción</th>
+                ${ROLES.map(role => `<th>${escapeHtml(role)}</th>`).join("")}
+              </tr>
+            </thead>
+            <tbody>
+              ${PERMISSION_ACTIONS.map(action => `
+                <tr>
+                  <td>${escapeHtml(action)}</td>
+                  ${ROLES.map(role => {
+                    const checked = value?.[action]?.includes(role) ? "checked" : "";
+                    return `
+                      <td>
+                        <input type="checkbox" data-q="${question.id}" data-kind="role_permission_matrix" data-action="${escapeHtml(action)}" data-role="${escapeHtml(role)}" ${checked} />
+                      </td>
+                    `;
+                  }).join("")}
+                </tr>
+              `).join("")}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    function renderFileOptional(question, value) {
+      const description = value.description || "";
+      const fileNames = value.file_names || [];
+      return `
+        <div class="file-box">
+          <textarea data-q="${question.id}" data-kind="file_description" placeholder="Describa el material o referencia que desea aportar">${escapeHtml(description)}</textarea>
+          <input data-q="${question.id}" data-kind="file_names" type="file" multiple />
+          <p class="file-note">Archivos seleccionados: ${fileNames.length ? escapeHtml(fileNames.join(", ")) : "ninguno"}. El JSON conserva solo los nombres, no el contenido binario.</p>
+        </div>
+      `;
+    }
+
+    function wireQuestionEvents(section) {
+      visibleQuestions(section).forEach(question => {
+        document.querySelectorAll(`[data-q="${question.id}"]`).forEach(el => {
+          const kind = el.dataset.kind;
+          if (kind === "text" || kind === "textarea") {
+            el.oninput = event => setAnswer(question, event.target.value);
+          } else if (kind === "number") {
+            el.oninput = event => setAnswer(question, event.target.value === "" ? "" : Number(event.target.value));
+          } else if (kind === "single_select") {
+            el.onchange = event => setAnswer(question, event.target.value, {}, true);
+          } else if (kind === "multi_select") {
+            el.onchange = () => {
+              const values = [...document.querySelectorAll(`[data-q="${question.id}"][data-kind="multi_select"]:checked`)].map(item => item.value);
+              setAnswer(question, values, {}, true);
+            };
+          } else if (kind === "ranking") {
+            el.onchange = () => {
+              const selects = [...document.querySelectorAll(`[data-q="${question.id}"][data-kind="ranking"]`)];
+              const values = selects.map(item => item.value);
+              setAnswer(question, values, {}, true);
+            };
+          } else if (kind === "matrix_scale") {
+            el.onchange = () => {
+              const selects = [...document.querySelectorAll(`[data-q="${question.id}"][data-kind="matrix_scale"]`)];
+              const matrix = {};
+              selects.forEach(item => {
+                const problem = item.dataset.problem;
+                const dim = item.dataset.dim;
+                if (!matrix[problem]) matrix[problem] = {};
+                if (item.value) matrix[problem][dim] = item.value;
+              });
+              setAnswer(question, matrix);
+            };
+          } else if (kind === "role_permission_matrix") {
+            el.onchange = () => {
+              const checks = [...document.querySelectorAll(`[data-q="${question.id}"][data-kind="role_permission_matrix"]:checked`)];
+              const matrix = {};
+              checks.forEach(item => {
+                const action = item.dataset.action;
+                const role = item.dataset.role;
+                if (!matrix[action]) matrix[action] = [];
+                matrix[action].push(role);
+              });
+              setAnswer(question, matrix);
+            };
+          } else if (kind === "file_description") {
+            el.oninput = event => {
+              const current = answers[question.id]?.value || {};
+              setAnswer(question, { ...current, description: event.target.value });
+            };
+          } else if (kind === "file_names") {
+            el.onchange = event => {
+              const current = answers[question.id]?.value || {};
+              const names = [...event.target.files].map(file => file.name);
+              setAnswer(question, { ...current, file_names: names }, {}, true);
+            };
+          }
+        });
+
+        if (question.allow_other) {
+          const otherKey = `${question.id}__other`;
+          const otherEl = document.querySelector(`[data-q="${otherKey}"]`);
+          if (otherEl) {
+            otherEl.oninput = event => {
+              const pseudo = {
+                id: otherKey,
+                key: `${question.key}_other`,
+                type: "text",
+                label: `${question.label} — Otro`
+              };
+              setAnswer(pseudo, event.target.value);
+            };
+          }
+        }
+      });
+    }
+
+    function renderReview() {
+      const sections = getVisibleSections();
+      const stats = completionStats();
+      const errors = finalValidationErrors();
+      const errorsHtml = errors.length ? `
+        <div class="error-box">
+          <strong>Antes de exportar, revise estos puntos:</strong><br />
+          ${errors.map(error => `• ${escapeHtml(error)}`).join("<br />")}
+        </div>
+      ` : `
+        <div class="success-box">
+          El formulario cumple las validaciones obligatorias visibles y está listo para descargar en JSON.
+        </div>
+      `;
+
+      app.innerHTML = `
+        <article class="card main-card">
+          <div class="eyebrow">Revisión final</div>
+          <h2>Resumen de diligenciamiento</h2>
+          <p class="intro">
+            Revise el estado general antes de descargar el archivo. El JSON conservará respuestas,
+            módulos renderizados y metadata de completitud.
+          </p>
+          ${errorsHtml}
+          <div class="summary-grid">
+            <div class="summary-card">
+              <h3>Avance obligatorio</h3>
+              <p>${stats.requiredAnswered}/${stats.required} campos obligatorios · ${stats.percentage}%</p>
+            </div>
+            <div class="summary-card">
+              <h3>Preguntas visibles</h3>
+              <p>${stats.totalAnswered}/${stats.totalVisible} respondidas</p>
+            </div>
+            <div class="summary-card">
+              <h3>Módulos activados</h3>
+              <p>${getSelectedModules().length ? getSelectedModules().join(", ") : "Solo bloque común"}</p>
+            </div>
+          </div>
+
+          <table class="review-table">
+            <thead>
+              <tr>
+                <th>Sección</th>
+                <th>Estado</th>
+                <th>Respuestas</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              ${sections.map(section => {
+                const s = sectionStats(section);
+                return `
+                  <tr>
+                    <td><strong>${escapeHtml(section.id)} · ${escapeHtml(section.title)}</strong></td>
+                    <td><span class="chip ${s.complete ? "" : "pending"}">${s.complete ? "En regla" : "Pendiente"}</span></td>
+                    <td>${s.answered}/${s.total}</td>
+                    <td><button class="ghost-btn" data-edit-section="${section.id}" type="button">Editar</button></td>
+                  </tr>
+                `;
+              }).join("")}
+            </tbody>
+          </table>
+
+          <div class="review-actions">
+            <div>
+              <button class="secondary-btn" id="backToFormBtn" type="button">Volver al formulario</button>
+            </div>
+            <div>
+              <button class="secondary-btn" id="downloadDraftBtn" type="button">Descargar borrador JSON</button>
+              <button class="btn" id="downloadFinalBtn" type="button" ${errors.length ? "disabled" : ""}>Descargar JSON final</button>
+            </div>
+          </div>
+        </article>
+      `;
+
+      document.querySelectorAll("[data-edit-section]").forEach(btn => {
+        btn.onclick = () => {
+          uiState.screen = "questionnaire";
+          uiState.currentSectionId = btn.dataset.editSection;
+          saveState();
+          render();
+        };
+      });
+
+      document.getElementById("backToFormBtn").onclick = () => {
+        uiState.screen = "questionnaire";
+        saveState();
+        render();
+      };
+
+      document.getElementById("downloadDraftBtn").onclick = () => downloadJson(false);
+      const finalBtn = document.getElementById("downloadFinalBtn");
+      if (finalBtn) finalBtn.onclick = () => downloadJson(true);
+    }
+
+    function exportPayload(isFinal) {
+      const visibleSections = getVisibleSections();
+      const selectedModules = getSelectedModules();
+      const stats = completionStats();
+      const respondent = {
+        full_name: getAnswer("A-01") || "",
+        job_title: getAnswer("A-02") || "",
+        area: getAnswer("A-03") || "",
+        tenure: getAnswer("A-04") || "",
+        document_interaction_level: getAnswer("A-05") || ""
+      };
+
+      return {
+        submission_id: uuid(),
+        export_status: isFinal ? "final" : "draft",
+        questionnaire: {
+          id: SCHEMA.questionnaire_id,
+          version: SCHEMA.version,
+          title: SCHEMA.title,
+          language: SCHEMA.language
+        },
+        submitted_at: nowBogotaIso(),
+        timezone_reference: "America/Bogota",
+        respondent,
+        routing: {
+          selected_module_sections: selectedModules,
+          rendered_sections: visibleSections.map(section => section.id)
+        },
+        answers,
+        completion: {
+          visible_questions: stats.totalVisible,
+          answered_questions: stats.totalAnswered,
+          required_questions: stats.required,
+          required_answered: stats.requiredAnswered,
+          completion_percentage: stats.percentage
+        }
+      };
+    }
+
+    function safeFilenamePart(value) {
+      return String(value || "participante")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-zA-Z0-9]+/g, "_")
+        .replace(/^_+|_+$/g, "")
+        .slice(0, 48) || "participante";
+    }
+
+    function downloadJson(isFinal) {
+      const payload = exportPayload(isFinal);
+      const raw = JSON.stringify(payload, null, 2);
+      const blob = new Blob([raw], { type: "application/json;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      const participant = safeFilenamePart(getAnswer("A-01") || getAnswer("A-03") || "participante");
+      const today = new Date().toISOString().slice(0, 10);
+      a.href = url;
+      a.download = `${isFinal ? "respuestas" : "borrador"}_rrhh_documental_${participant}_${today}.json`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    function resetAnswers() {
+      const confirmed = window.confirm("¿Desea borrar todas las respuestas guardadas en este navegador?");
+      if (!confirmed) return;
+      answers = {};
+      uiState = { screen: "welcome", currentSectionId: "A" };
+      lastError = "";
+      localStorage.removeItem(STORAGE_KEY);
+      localStorage.removeItem(APP_STATE_KEY);
+      render();
+    }
+
+    resetTopBtn.onclick = resetAnswers;
+
+    function render() {
+      if (uiState.screen === "review") renderReview();
+      else if (uiState.screen === "questionnaire") renderQuestionnaire();
+      else renderWelcome();
+    }
+
+    render();
+  </script>
+</body>
+</html>
